@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ndraa docs</title>
+    <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@4.15.5/swagger-ui.css" />
+    <style>
+        .topbar {
+            display: none;
+        }
+        .swagger-ui .topbar {
+            display: none;
+        }
+        .swagger-ui .topbar .download-url-wrapper,
+        .swagger-ui .topbar .search-container {
+            display: none;
+        }
+        .opblock-summary-path {
+            white-space: nowrap;
+        }
+        .opblock-summary-path a {
+            display: inline-block;
+            white-space: normal;
+        }
+    </style>
+</head>
+<body>
+    <div id="swagger-ui"></div>
+    <script src="https://unpkg.com/swagger-ui-dist@4.15.5/swagger-ui-bundle.js"></script>
+    <script>
+        window.onload = function() {
+            window.ui = SwaggerUIBundle({
+                spec: {
+                    "swagger": "2.0",
+                    "info": {
+                        "title": "Furinaa api",
+                        "version": "1.2.0",
+                        "description": "Hello World!"
+                    },
+                    "host": "https://ndra-furinaa-api.vercel.app",
+                    "basePath": "/api",
+                    "schemes": ["https"],
+                    "tags": [
+                        {
+                            "name": "System"
+                        }
+                    ],
+                    "paths": {
+                        "/gemini": {
+                            "get": {
+                                "summary": "",
+                                "deprecated": false,
+                                "description": "",
+                                "tags": [
+                                    "System"
+                                ],
+                                "parameters": [
+                                    {
+                                        "name": "text",
+                                        "in": "query",
+                                        "description": "Enter text",
+                                        "required": false,
+                                        "type": "string"
+                                    }
+                                ],
+                                "responses": {
+                                    "200": {
+                                        "description": "Successful response",
+                                        "schema": {
+                                            "type": "object",
+                                            "properties": {}
+                                        }
+                                    }
+                                },
+                                "security": []
+                            }
+                        }
+                    }
+                },
+                dom_id: '#swagger-ui',
+                presets: [
+                    SwaggerUIBundle.presets.apis,
+                    SwaggerUIBundle.SwaggerUIStandalonePreset
+                ],
+                layout: "BaseLayout",
+                deepLinking: true,
+                filter: false
+            });
+        };
+    </script>
+</body>
+</html>
