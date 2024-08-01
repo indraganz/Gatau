@@ -45,15 +45,15 @@
                 "schemes": ["https"],
                 "tags": [
                     {
-                        "name": "System"
+                        "name": "Ai System"
                     }
                 ],
                 "paths": {
                     "/Gemini": { // Endpoint pertama
                         "get": {
-                            "summary": "Gemini",
-                            "description": "Description for Gemini Instance 1",
-                            "tags": ["System"],
+                            "summary": "",
+                            "description": "Description for Gemini Instance",
+                            "tags": ["Ai System"],
                             "parameters": [
                                 {
                                     "name": "text",
@@ -76,14 +76,64 @@
                     },
                     "/tiktok_stalk": { // Endpoint kedua
                         "get": {
-                            "summary": "Tiktok Stalk",
+                            "summary": "",
                             "description": "Description for Tiktok-stalk",
-                            "tags": ["System"],
+                            "tags": ["Stalker"],
                             "parameters": [
                                 {
                                     "name": "username",
                                     "in": "query",
-                                    "description": "Enter text for Instance 2",
+                                    "description": "Enter text for Instance",
+                                    "required": false,
+                                    "type": "string"
+                                }
+                            ],
+                            "responses": {
+                                "200": {
+                                    "description": "Successful response",
+                                    "schema": {
+                                        "type": "object",
+                                        "properties": {}
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "/gpt-3_5-turbo": { // Endpoint kedua
+                        "get": {
+                            "summary": "",
+                            "description": "Description for Gpt 3.5 turbo",
+                            "tags": ["Ai System"],
+                            "parameters": [
+                                {
+                                    "name": "text",
+                                    "in": "query",
+                                    "description": "Enter text for Instance",
+                                    "required": false,
+                                    "type": "string"
+                                }
+                            ],
+                            "responses": {
+                                "200": {
+                                    "description": "Successful response",
+                                    "schema": {
+                                        "type": "object",
+                                        "properties": {}
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "/gpt-4_adv": { // Endpoint kedua
+                        "get": {
+                            "summary": "",
+                            "description": "Description for Gpt 4 adv",
+                            "tags": ["Ai System"],
+                            "parameters": [
+                                {
+                                    "name": "text",
+                                    "in": "query",
+                                    "description": "Enter text for Instance",
                                     "required": false,
                                     "type": "string"
                                 }
@@ -101,6 +151,7 @@
                     }
                 }
             };
+            
 
             SwaggerUIBundle({
                 spec: swaggerSpec,
