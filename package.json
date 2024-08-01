@@ -1,0 +1,35 @@
+{
+  "name": "nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@xct007/frieren-scraper": "^0.0.2",
+    "axios": "^1.6.8",
+    "cors": "^2.8.5",
+    "express-rate-limit": "^7.1.5",
+    "express": "^4.19.2",
+    "jimp": "^0.16.1",
+    "node-fetch": "^2.0.0", 
+    "form-data": "^4.0.0", 
+    "g4f": "^1.4.3", 
+    "bing-translate-api": "^4.0.1", 
+    "cheerio": "^1.0.0-rc.12", 
+    "got": "^11.8.3",
+    "jsdom": "^24.0.0",
+    "body-parser": "^1.20.2",
+    "qs": "^6.12.1",
+    "getfile-fs": "^1.0.1",
+    "url": "^0.11.3",
+    "child_process": "~1.0.2",
+    "util": "~0.12.4",
+    "prodia.js": "*",
+    "nekobocc": "^1.4.0"
+   }
+}
