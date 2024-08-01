@@ -148,6 +148,156 @@
                                 }
                             }
                         }
+                    },
+                     "/blackbox": { // Endpoint kedua
+                        "get": {
+                            "summary": "",
+                            "description": "Description for Blackbox",
+                            "tags": ["Ai System"],
+                            "parameters": [
+                                {
+                                    "name": "text",
+                                    "in": "query",
+                                    "description": "Enter text for Instance",
+                                    "required": false,
+                                    "type": "string"
+                                }
+                            ],
+                            "responses": {
+                                "200": {
+                                    "description": "Successful response",
+                                    "schema": {
+                                        "type": "object",
+                                        "properties": {}
+                                    }
+                                }
+                            }
+                        }
+                    },
+                     "/removeBackground": { // Endpoint kedua
+                        "get": {
+                            "summary": "",
+                            "description": "Description for Blackbox",
+                            "tags": ["Ai System"],
+                            "parameters": [
+                                {
+                                    "name": "url",
+                                    "in": "query",
+                                    "description": "Enter text for Instance",
+                                    "required": false,
+                                    "type": "string"
+                                }
+                            ],
+                            "responses": {
+                                "200": {
+                                    "description": "Successful response",
+                                    "schema": {
+                                        "type": "object",
+                                        "properties": {}
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "/spotify-search": { // Endpoint kedua
+                        "get": {
+                            "summary": "",
+                            "description": "Description for Blackbox",
+                            "tags": ["searching"],
+                            "parameters": [
+                                {
+                                    "name": "text",
+                                    "in": "query",
+                                    "description": "Enter text for Instance",
+                                    "required": false,
+                                    "type": "string"
+                                }
+                            ],
+                            "responses": {
+                                "200": {
+                                    "description": "Successful response",
+                                    "schema": {
+                                        "type": "object",
+                                        "properties": {}
+                                    }
+                                }
+                            }
+                        }
+                    },
+"/image-toAnime": { // Endpoint kedua
+    "post": {
+        "summary": "",
+        "description": "Description for Image To Anime",
+        "tags": ["Ai System"],
+        "parameters": [
+            {
+                "name": "url",
+                "in": "query",
+                "description": "Enter url for Instance",
+                "required": false,
+                "type": "string"
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "Successful response",
+                "schema": {
+                    "type": "object",
+                    "properties": {}
+                }
+            }
+        }
+    }
+},
+                                         "/Instagram": { // Endpoint kedua
+                        "get": {
+                            "summary": "",
+                            "description": "Description for Downloader Instagram",
+                            "tags": ["Downloader"],
+                            "parameters": [
+                                {
+                                    "name": "url",
+                                    "in": "query",
+                                    "description": "Enter text for Instance",
+                                    "required": false,
+                                    "type": "string"
+                                }
+                            ],
+                            "responses": {
+                                "200": {
+                                    "description": "Successful response",
+                                    "schema": {
+                                        "type": "object",
+                                        "properties": {}
+                                    }
+                                }
+                            }
+                        }
+                    },
+"/removeBackgroundV2": { // Endpoint kedua
+    "post": {
+        "summary": "",
+        "description": "Description for Image To Anime",
+        "tags": ["Ai System"],
+        "parameters": [
+            {
+                "name": "url",
+                "in": "query",
+                "description": "Enter url for Instance",
+                "required": false,
+                "type": "string"
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "Successful response",
+                "schema": {
+                    "type": "object",
+                    "properties": {}
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             };
