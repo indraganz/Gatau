@@ -290,59 +290,57 @@ exports.wallpaper = async (title, page = '1')  => {
   })
 }
 
-const axios = require('axios');
-const cheerio = require('cheerio');
+exports.ttstalk = async (username) => {
+return new Promise(async resolve => {
+	let retryCount = 0;
+	while (retryCount < 3) {
+		try {
+			const response = await axios.get(`https://tiktok.com/@${username}`);
+			const $ = cheerio.load(response.data);
 
-exports.alk = async (username) => {
-    return new Promise(async resolve => {
-        let retryCount = 0;
-        while (retryCount < 3) {
-            try {
-                const response = await axios.get(`https://tiktok.com/@${username}`);
-                const $ = cheerio.load(response.data);
+			
+			const jsonData = $('#__UNIVERSAL_DATA_FOR_REHYDRATION__').text();
+			const parsedData = JSON.parse(jsonData);
+			const userData = parsedData.__DEFAULT_SCOPE__['webapp.user-detail'].userInfo;
 
-                const jsonData = $('#__UNIVERSAL_DATA_FOR_REHYDRATION__').text();
-                const parsedData = JSON.parse(jsonData);
-                const userData = parsedData.__DEFAULT_SCOPE__['webapp.user-detail'].userInfo;
+			const userInfo = {
+				data: {
+					...userData.user,
+					...userData.stats
+				}
+			};
+			
+			resolve(userInfo);
+		} catch (err) {
+			console.error(`Attempt ${retryCount + 1} failed: ${err.message}`);
+			retryCount++;
+		}
+	}
+	throw new Error('Failed to fetch user data after 3 attempts.');
+})
+}
 
-                const userInfo = {
-                    data: {
-                        ...userData.user,
-                        ...userData.stats
-                    }
-                };
-
-                resolve(userInfo);
-                return;
-            } catch (err) {
-                console.error(`Attempt ${retryCount + 1} failed: ${err.message}`);
-                retryCount++;
+  exports.chatbot = async (text, lang = 'id') => {
+   return new Promise(async resolve => {
+      try {
+         let form = new URLSearchParams
+         form.append('text', text)
+         form.append('lc', lang)
+         const json = await (await axios.post('https://api.simsimi.vn/v1/simtalk', form, {
+            headers: {
+               'Content-Type': 'application/x-www-form-urlencoded'
             }
-        }
-        throw new Error('Failed to fetch user data after 3 attempts.');
-    });
-};
-exports.chatbot = async (text, lang = 'id') => {
-    return new Promise(async resolve => {
-        try {
-            let form = new URLSearchParams();
-            form.append('text', text);
-            form.append('lc', lang);
-            const json = await (await axios.post('https://api.simsimi.vn/v1/simtalk', form, {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
-            })).data;
-            resolve({
-                msg: json.message
-            });
-        } catch (e) {
-            resolve({
-                msg: e.message
-            });
-        }
-    });
-};
+         })).data
+         resolve({
+            msg: json.message
+         })
+      } catch (e) {
+         resolve({
+            msg: e.message
+         })
+      }
+   })
+}
 
 exports.mediafireDl = async (url) => {
 const res = await axios.get(url) 
