@@ -34,7 +34,7 @@ const { vits_inference, vits_model, vits_emotion } = require('./plugins/rvc-vits
 const app = express()  // Inisialisasi app
 const PORT = process.env.PORT || 3000
 
-global.creator = 'furina - indraa'
+global.creator = 'balxzzy!!'
 
 /** ==== { KONFIGURASI APLIKASI } ==== **/
 app.enable("trust proxy")
@@ -1043,25 +1043,28 @@ app.get('/api/chatbot_bitrough', async (req, res) => {
     }
 });
 
-//// ttstalk
+//ttstalk
 app.get('/api/tiktok_stalk', async (req, res) => {
     try {
         const message = req.query.username;
         if (!message) {
-            return res.status(400).json({
-                error: 'Parameter "username" tidak ditemukan'
-            });
+            return res.status(400)
+                .json({
+                    error: 'Parameter "username" tidak ditemukan'
+                });
         }
         const result = await ttstalk(message);
-        res.status(200).json({
-            status: 200,
-            creator: global.creator,
-            result: result,
-        });
+        res.status(200)
+            .json({
+                status: 200,
+                creator: global.creator,
+                result: result,
+            });
     } catch (error) {
-        res.status(500).json({
-            error: error.message
-        });
+        res.status(500)
+            .json({
+                error: error.message
+            });
     }
 });
 
@@ -1071,7 +1074,7 @@ app.get('/api/instagram_stalk', async (req, res) => {
         const user = req.query.user;
         if (!user) {
             return res.status(400).json({
-                error: 'Parameter "profileLink" tidak ditemukan'
+                error: 'Parameter "user" tidak ditemukan'
             });
         }
         const result = await igstalk(user);
@@ -1086,7 +1089,6 @@ app.get('/api/instagram_stalk', async (req, res) => {
         });
     }
 });
-
 
 //otakudesu 
 app.get('/api/otakudesu_episode', async (req, res) => {
@@ -1364,7 +1366,7 @@ app.get('/api/gpt-4_adv', async (req, res) => {
                 status: 200,
                 creator: global.creator,
                 result: {
-                    reply]: data
+                    reply: data
                 },
                 input: {
                     text: message
