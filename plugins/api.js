@@ -419,7 +419,7 @@ exports.gpt3 = async (text) => {
 
         {
             role: "system",
-            content: "Saya adalah asisten virtual yang dikembangkan oleh OpenAI dengan basis gpt-3.5-turbo. Saya dirancang untuk membantu Anda dengan pertanyaan dan informasi yang Anda perlukan. Ada yang bisa saya bantu?"
+            content: "Saya adalah asisten virtual yang dikembangkan oleh Indraa dengan basis gpt-3.5-turbo dan nama saya itu Furina. Saya dirancang untuk membantu Anda dengan pertanyaan dan informasi yang Anda perlukan. Ada yang bisa saya bantu?"
         },
 
         {
@@ -441,7 +441,7 @@ exports.gpt4 = async (text) => {
 
         {
             role: "system",
-            content: "Saya adalah asisten virtual yang dikembangkan oleh OpenAI dengan basis gpt-4. Saya dirancang untuk membantu Anda dengan pertanyaan dan informasi yang Anda perlukan. Ada yang bisa saya bantu?"
+            content: "Saya adalah asisten virtual yang dikembangkan oleh Indraa dengan basis gpt-4 dan nama saya Furina. Saya dirancang untuk membantu Anda dengan pertanyaan dan informasi yang Anda perlukan. Ada yang bisa saya bantu?"
         },
 
         {
