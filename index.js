@@ -53,6 +53,15 @@ app.get('/contacts', (req, res) => {
 app.get('/explanation', (req, res) => {
     res.sendFile(path.join(__dirname, './interface/explanation.html'))
 })
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, './interface/login.html'))
+})
+app.get('/server', (req, res) => {
+    res.sendFile(path.join(__dirname, './interface/server.js'))
+})
+app.get('/database', (req, res) => {
+    res.sendFile(path.join(__dirname, './interface/database.js'))
+})
 app.get('/docs', (req, res) => {
     res.sendFile(path.join(__dirname, './docs/endpoint.html'))
 })
