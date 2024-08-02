@@ -184,7 +184,7 @@
         <div class="logo">Furina API</div>
         <div class="menu" onclick="toggleMenu()">☰</div>
         <div class="menu-content" id="menuContent">
-            <a href="login.html">Login</a>
+            <a href="interface/login.html">Login</a>
             <a href="/register">Register</a>
             <a href="#">Pricing</a>
         </div>
@@ -236,11 +236,11 @@
         }
 
         document.getElementById('playgroundButton').addEventListener('click', function() {
-            window.location.href = isLoggedIn() ? '/playground' : 'login.html';
+            window.location.href = isLoggedIn() ? '/playground' : 'interface/login.html';
         });
 
         document.getElementById('contactButton').addEventListener('click', function() {
-            window.location.href = 'contacts.html'; // Link to your contact page
+            window.location.href = 'interface/contacts.html'; // Link to your contact page
         });
 
         document.getElementById('docsButton').addEventListener('click', function() {
