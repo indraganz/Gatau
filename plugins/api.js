@@ -323,34 +323,22 @@ exports.alk = async (username) => {
     });
 };
 
-exports.igstalk = async (user) => {
+exports.igstalk = async (profileLink) => {
     return new Promise(async resolve => {
         let retryCount = 0;
         while (retryCount < 3) {
             try {
-                const url = `https://dumpoir.com/v/${user}`;
-                const response = await axios.get(url);
+                const response = await axios.get(`https://dumpoir.com/v/${profileLink}`);
                 const $ = cheerio.load(response.data);
 
-                const profileImage = $('div.avatar img').attr('src');
-                const username = $('h1').text().trim();
-                const name = $('h2').text().trim() || '-';
-                const bio = $('div.text-sm.font-serif').text().trim() || '-';
-                const postsCount = parseInt($('.stat-value.text-primary').text().trim(), 10) || 0;
-                const followers = $('div.stat-value.text-secondary').eq(0).text().trim() || 0;
-                const following = parseInt($('div.stat-value').eq(2).text().trim()) || 0;
+                const jsonData = $('#__UNIVERSAL_DATA_FOR_REHYDRATION__').text();
+                const parsedData = JSON.parse(jsonData);
+                const userData = parsedData.__DEFAULT_SCOPE__['webapp.user-detail'].userInfo;
 
                 const userInfo = {
-                    creator: 'Furinaa - Indraa Code',
-                    status: true,
                     data: {
-                        profile_image: profileImage,
-                        username: username,
-                        name: name,
-                        bio: bio,
-                        followers: followers,
-                        following: following,
-                        posts_count: postsCount
+                        ...userData.user,
+                        ...userData.stats
                     }
                 };
 
@@ -363,8 +351,7 @@ exports.igstalk = async (user) => {
         }
         throw new Error('Failed to fetch user data after 3 attempts.');
     });
-};
-
+}
 exports.chatbot = async (text, lang = 'id') => {
     return new Promise(async resolve => {
         try {
