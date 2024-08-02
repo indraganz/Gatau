@@ -1068,13 +1068,13 @@ app.get('/api/tiktok_stalk', async (req, res) => {
 // igstalk
 app.get('/api/instagram_stalk', async (req, res) => {
     try {
-        const profileLink = req.query.profileLink;
-        if (!profileLink) {
+        const user = req.query.user;
+        if (!user) {
             return res.status(400).json({
                 error: 'Parameter "profileLink" tidak ditemukan'
             });
         }
-        const result = await igstalk(profileLink);
+        const result = await igstalk(user);
         res.status(200).json({
             status: 200,
             creator: global.creator,
