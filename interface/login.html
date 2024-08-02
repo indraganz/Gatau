@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Furina API - Login/Register</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background: url('https://telegra.ph/file/ba4e480d522915a8a0c3d.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+            width: 300px;
+            text-align: center;
+        }
+
+        .container h2 {
+            color: #007bff;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .container input[type="text"],
+        .container input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        .container button {
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-transform: uppercase;
+            width: 100%;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .container button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 14px;
+            margin-top: 20px;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="formContainer">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button id="submitButton" onclick="handleSubmit()">Login</button>
+        <p>Don't have an account? <a href="#" onclick="toggleForm()">Register</a></p>
+    </div>
+
+    <script>
+        let isLoginForm = true;
+
+        function toggleForm() {
+            const container = document.getElementById('formContainer');
+            isLoginForm = !isLoginForm;
+            if (isLoginForm) {
+                container.querySelector('h2').textContent = 'Login';
+                document.getElementById('submitButton').textContent = 'Login';
+                container.querySelector('p').innerHTML = 'Don\'t have an account? <a href="#" onclick="toggleForm()">Register</a>';
+                const emailInput = container.querySelector('input[type="text"]:nth-child(3)');
+                if (emailInput) {
+                    container.removeChild(emailInput);
+                }
+                document.getElementById('username').placeholder = 'Username';
+            } else {
+                container.querySelector('h2').textContent = 'Register';
+                document.getElementById('submitButton').textContent = 'Register';
+                container.querySelector('p').innerHTML = 'Already have an account? <a href="#" onclick="toggleForm()">Login</a>';
+                if (!container.querySelector('input[type="text"]:nth-child(3)')) {
+                    const emailInput = document.createElement('input');
+                    emailInput.setAttribute('type', 'text');
+                    emailInput.setAttribute('placeholder', 'Email');
+                    container.insertBefore(emailInput, container.children[1]);
+                }
+                document.getElementById('username').placeholder = 'Username';
+            }
+        }
+
+        function handleSubmit() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const email = isLoginForm ? null : document.querySelector('input[type="text"]:nth-child(3)').value;
+
+            const url = isLoginForm ? `${window.location.origin}/api/login` : `${window.location.origin}/api/register`;
+            const data = isLoginForm ? { username, password } : { username, password, email };
+
+            console.log("Data yang dikirim:", data); // Log data yang dikirim
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Response Data:", data); // Log data respons
+                alert(data.message);
+                if (data.success) {
+                    // Redirect to /docs after successful login or registration
+                    window.location.href = '/docs';
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>
