@@ -3,178 +3,248 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Page</title>
+    <title>Furina API - RESTFUL</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f0f0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            font-family: 'Roboto', sans-serif;
             margin: 0;
-            transition: background-color 0.3s ease;
+            padding: 0;
+            box-sizing: border-box;
+            background: url('https://telegra.ph/file/ba4e480d522915a8a0c3d.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
         }
 
-        .dark-theme {
-            background-color: #121212;
-            color: #ffffff;
+        .header {
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            animation: fadeIn 1s;
         }
 
-        .theme-toggle {
+        .header .logo {
+            font-size: 36px;
+            font-weight: bold;
+            margin: 0;
+            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.9);
+        }
+
+        .header .menu {
             position: absolute;
             top: 20px;
             right: 20px;
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-        }
-
-        .theme-toggle input {
-            margin-right: 5px;
-        }
-
-        .container {
-            background-color: #1212;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            max-width: 400px;
-            width: 100%;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        .container.fade-in {
-            opacity: 1;
-            transform: translateY(0);
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-
-        .dark-theme .container {
-            background-color: #333;
-        }
-
-        .profile-photo {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 20px;
-        }
-
-        .info h1 {
-            margin: 20px 0 10px;
             font-size: 28px;
-            color: #333;
-        }
-
-        .info .title {
-            font-size: 18px;
-            color: #555;
-            margin-bottom: 20px;
-        }
-
-        .info .bio {
-            font-size: 16px;
-            color: #666;
-            margin-bottom: 30px;
-        }
-
-        .dark-theme .info h1, 
-        .dark-theme .info .title, 
-        .dark-theme .info .bio {
-            color: #ccc;
-        }
-
-        .buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-
-        .buttons a {
-            flex: 1;
-            margin: 0 5px;
-        }
-
-        .buttons-single {
-            display: flex;
-            justify-content: center;
-        }
-
-        .buttons-single a {
-            width: 100%;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 10px 25px;
-            font-size: 16px;
+            cursor: pointer;
             color: #fff;
-            background-color: #007bff;
-            border: none;
-            border-radius: 20px;
+            transition: transform 0.3s;
+        }
+
+        .menu:hover {
+            transform: scale(1.1);
+        }
+
+        .menu-content {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            z-index: 1000;
+        }
+
+        .menu-content a {
+            display: block;
+            padding: 10px 20px;
             text-decoration: none;
-            transition: background-color 0.3s ease;
+            color: #333;
+            border-bottom: 1px solid #ddd;
+            transition: background 0.3s;
+        }
+
+        .menu-content a:hover {
+            background-color: #e0e0e0;
+        }
+
+        .section {
             text-align: center;
+            margin: 40px 20px;
+            padding: 40px;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+            animation: slideIn 1s;
         }
 
-        .btn:hover {
+        .section h2 {
+            color: #007bff;
+            font-size: 32px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: fadeInDown 0.5s;
+        }
+
+        .section p {
+            margin: 10px 0;
+            font-size: 18px;
+            line-height: 1.6;
+            animation: fadeIn 0.7s;
+        }
+
+        .button-container {
+            margin-top: 20px;
+        }
+
+        .playground-button, .contact-button, .docs-button {
+            background-color: #007bff;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 16px;
+            transition: background 0.3s, transform 0.3s;
+            margin: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .playground-button:hover, .contact-button:hover, .docs-button:hover {
             background-color: #0056b3;
+            transform: scale(1.05);
         }
 
-        .dark-theme .btn {
-            background-color: #0056b3;
+        .features {
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 30px;
+            margin: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
         }
 
-        .dark-theme .btn:hover {
-            background-color: #003f7f;
+        .features h3 {
+            color: #007bff;
+            font-size: 24px;
+            margin: 15px 0;
         }
 
-        /* Tambahkan ini ke styles.css jika perlu */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
+        .features p {
+            margin: 5px 0;
+            font-size: 16px;
         }
 
-        .loaded .fade-in {
-            opacity: 1;
-            transform: translateY(0);
+        .footer {
+            text-align: center;
+            font-size: 14px;
+            padding: 20px;
+            color: #fff;
+            animation: fadeIn 1s;
+        }
+
+        /* Flexbox untuk menjaga footer tetap di bawah */
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
     </style>
 </head>
 <body>
-    <div class="theme-toggle">
-        <input type="checkbox" id="theme-switch">
-        <label for="theme-switch">Dark Mode</label>
-    </div>
-    <div class="container fade-in">
-        <img src="https://telegra.ph/file/cb3082d466497d03ebe5d.jpg" alt="Blum ada foto" class="profile-photo">
-        <div class="info">
-            <h1>Indraa Codee</h1>
-            <p class="title">My Name Indraa</p>
-            <p class="bio">Welcome to portofolio Furinaa Apii, Support kami Terus untuk berkembang, jika mau beli bot atau lain lain hubingi saya</p>
-            <div class="buttons">
-                <a href="https://whatsapp.com/channel/0029VaYVlVP9hXF9Ig83hJ3L" class="btn">Saluran Whatsapp</a>
-                <a href="https://wa.me/6285325268412" class="btn">Contact Me</a>
-            </div>
-            <div class="buttons-single">
-                <a href="./docs" class="btn">Open Docs</a>
-            </div>
+
+    <div class="header">
+        <div class="logo">Furina API</div>
+        <div class="menu" onclick="toggleMenu()">☰</div>
+        <div class="menu-content" id="menuContent">
+            <a href="login.html">Login</a>
+            <a href="/register">Register</a>
+            <a href="#">Pricing</a>
         </div>
     </div>
 
+    <div class="content">
+        <div class="section">
+            <h2>HOW DO APIs WORK?</h2>
+            <p>API architecture is usually explained in terms of client and server. The application sending the request is called the client, and the application sending the response is called the server.</p>
+            <div class="button-container">
+                <button id="playgroundButton" class="playground-button">Playground</button>
+                <button id="contactButton" class="contact-button">Contact Us</button>
+            </div>
+        </div>
+
+        <div class="features">
+            <h3>ALWAYS FREE!</h3>
+            <p>Solve your problems with our tools, it's Free!</p>
+            <h3>Uptime 24/7</h3>
+            <p>Our website operates 24/7, never being shut down.</p>
+            <h3>Multiple Tabs</h3>
+            <p>Website has multiple tabs to enhance user experience and simplify navigation.</p>
+        </div>
+    </div>
+
+    <div class="footer">
+        © 2024 Furina API. All rights reserved.
+    </div>
+
     <script>
-        document.getElementById('theme-switch').addEventListener('change', () => {
-            document.body.classList.toggle('dark-theme');
+        function toggleMenu() {
+            var menuContent = document.getElementById('menuContent');
+            menuContent.style.display = (menuContent.style.display === 'block') ? 'none' : 'block';
+        }
+
+        function getCookie(name) {
+            let cookieArr = document.cookie.split(";");
+            for (let i = 0; i < cookieArr.length; i++) {
+                let cookiePair = cookieArr[i].split("=");
+                if (name === cookiePair[0].trim()) {
+                    return decodeURIComponent(cookiePair[1]);
+                }
+            }
+            return null;
+        }
+
+        function isLoggedIn() {
+            return getCookie('isLoggedIn') === 'true';
+        }
+
+        document.getElementById('playgroundButton').addEventListener('click', function() {
+            window.location.href = isLoggedIn() ? '/playground' : 'login.html';
         });
 
-        document.addEventListener('DOMContentLoaded', () => {
-            document.body.classList.add('loaded');
+        document.getElementById('contactButton').addEventListener('click', function() {
+            window.location.href = 'contacts.html'; // Link to your contact page
+        });
+
+        document.getElementById('docsButton').addEventListener('click', function() {
+            window.location.href = '/docs'; // Link to your documentation page
         });
     </script>
 </body>
