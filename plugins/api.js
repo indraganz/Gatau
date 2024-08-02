@@ -293,7 +293,7 @@ exports.wallpaper = async (title, page = '1')  => {
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-exports.ttstalk = async (username) => {
+exports.alk = async (username) => {
     return new Promise(async resolve => {
         let retryCount = 0;
         while (retryCount < 3) {
@@ -323,12 +323,12 @@ exports.ttstalk = async (username) => {
     });
 };
 
-exports.igstalk = async (profileLink) => {
+exports.igstalk = async (user) => {
     return new Promise(async resolve => {
         let retryCount = 0;
         while (retryCount < 3) {
             try {
-                const url = `https://dumpoir.com/v/${profileLink}`;
+                const url = `https://dumpoir.com/v/${user}`;
                 const response = await axios.get(url);
                 const $ = cheerio.load(response.data);
 
