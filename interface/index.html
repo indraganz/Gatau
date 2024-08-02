@@ -195,7 +195,7 @@
             <h2>HOW DO APIs WORK?</h2>
             <p>API architecture is usually explained in terms of client and server. The application sending the request is called the client, and the application sending the response is called the server.</p>
             <div class="button-container">
-                <button id="playgroundButton" class="playground-button">Playground</button>
+                <button id="playgroundButton" class="playground-button">Open Docs</button>
                 <button id="contactButton" class="contact-button">Contact Us</button>
             </div>
         </div>
@@ -236,7 +236,7 @@
         }
 
         document.getElementById('playgroundButton').addEventListener('click', function() {
-            window.location.href = isLoggedIn() ? '/playground' : '/login';
+            window.location.href = isLoggedIn() ? '/playground' : '/docs';
         });
 
         document.getElementById('contactButton').addEventListener('click', function() {
