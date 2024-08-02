@@ -322,36 +322,6 @@ exports.alk = async (username) => {
         throw new Error('Failed to fetch user data after 3 attempts.');
     });
 };
-
-exports.igstalk = async (profileLink) => {
-    return new Promise(async resolve => {
-        let retryCount = 0;
-        while (retryCount < 3) {
-            try {
-                const response = await axios.get(`https://dumpoir.com/v/${profileLink}`);
-                const $ = cheerio.load(response.data);
-
-                const jsonData = $('#__UNIVERSAL_DATA_FOR_REHYDRATION__').text();
-                const parsedData = JSON.parse(jsonData);
-                const userData = parsedData.__DEFAULT_SCOPE__['webapp.user-detail'].userInfo;
-
-                const userInfo = {
-                    data: {
-                        ...userData.user,
-                        ...userData.stats
-                    }
-                };
-
-                resolve(userInfo);
-                return;
-            } catch (err) {
-                console.error(`Attempt ${retryCount + 1} failed: ${err.message}`);
-                retryCount++;
-            }
-        }
-        throw new Error('Failed to fetch user data after 3 attempts.');
-    });
-}
 exports.chatbot = async (text, lang = 'id') => {
     return new Promise(async resolve => {
         try {
