@@ -45,7 +45,7 @@
                 "schemes": ["https"],
                 "tags": [
                     {
-                        "name": "Ai System"
+                        "name": "System"
                     }
                 ],
                 "paths": {
@@ -53,7 +53,7 @@
                         "get": {
                             "summary": "",
                             "description": "Description for Gemini Instance",
-                            "tags": ["Ai System"],
+                            "tags": ["Chat Gpt"],
                             "parameters": [
                                 {
                                     "name": "text",
@@ -99,11 +99,36 @@
                             }
                         }
                     },
+                    "/instagram_stalk": { // Endpoint kedua
+                        "get": {
+                            "summary": "",
+                            "description": "Description for Tiktok-stalk",
+                            "tags": ["Stalker"],
+                            "parameters": [
+                                {
+                                    "name": "user",
+                                    "in": "query",
+                                    "description": "Enter text for Instance",
+                                    "required": false,
+                                    "type": "string"
+                                }
+                            ],
+                            "responses": {
+                                "200": {
+                                    "description": "Successful response",
+                                    "schema": {
+                                        "type": "object",
+                                        "properties": {}
+                                    }
+                                }
+                            }
+                        }
+                    },
                     "/gpt-3_5-turbo": { // Endpoint kedua
                         "get": {
                             "summary": "",
                             "description": "Description for Gpt 3.5 turbo",
-                            "tags": ["Ai System"],
+                            "tags": ["Chat Gpt"],
                             "parameters": [
                                 {
                                     "name": "text",
@@ -128,7 +153,7 @@
                         "get": {
                             "summary": "",
                             "description": "Description for Gpt 4 adv",
-                            "tags": ["Ai System"],
+                            "tags": ["Chat Gpt"],
                             "parameters": [
                                 {
                                     "name": "text",
@@ -149,14 +174,58 @@
                             }
                         }
                     },
-                     "/blackbox": { // Endpoint kedua
+"/blackbox": {
+      "get": {
+        "summary": "",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "Chat Gpt"
+        ],
+        "parameters": [
+          {
+            "name": "text",
+            "in": "query",
+            "description": "Enter text",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "webSearchMode",
+            "in": "query",
+            "description": " `true or false` in lower case, if upper case will be an error",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+                     "/pixiv": { // Endpoint kedua
                         "get": {
                             "summary": "",
-                            "description": "Description for Blackbox",
-                            "tags": ["Ai System"],
+                            "description": "Description for Pixiv",
+                            "tags": ["System"],
                             "parameters": [
                                 {
-                                    "name": "text",
+                                    "name": "query",
                                     "in": "query",
                                     "description": "Enter text for Instance",
                                     "required": false,
@@ -177,8 +246,8 @@
                      "/removeBackground": { // Endpoint kedua
                         "get": {
                             "summary": "",
-                            "description": "Description for Blackbox",
-                            "tags": ["Ai System"],
+                            "description": "Description for RemoveBg",
+                            "tags": ["Image Ai"],
                             "parameters": [
                                 {
                                     "name": "url",
@@ -202,8 +271,58 @@
                     "/spotify-search": { // Endpoint kedua
                         "get": {
                             "summary": "",
-                            "description": "Description for Blackbox",
-                            "tags": ["searching"],
+                            "description": "Description for Spotify Search",
+                            "tags": ["Searching"],
+                            "parameters": [
+                                {
+                                    "name": "query",
+                                    "in": "query",
+                                    "description": "Enter text for Instance",
+                                    "required": false,
+                                    "type": "string"
+                                }
+                            ],
+                            "responses": {
+                                "200": {
+                                    "description": "Successful response",
+                                    "schema": {
+                                        "type": "object",
+                                        "properties": {}
+                                    }
+                                }
+                            }
+                        }
+                    },
+                  "/tiktok-dl": { // Endpoint kedua
+                        "get": {
+                            "summary": "",
+                            "description": "Description for Tiktok Download",
+                            "tags": ["Downloader"],
+                            "parameters": [
+                                {
+                                    "name": "url",
+                                    "in": "query",
+                                    "description": "Enter text for Instance",
+                                    "required": false,
+                                    "type": "string"
+                                }
+                            ],
+                            "responses": {
+                                "200": {
+                                    "description": "Successful response",
+                                    "schema": {
+                                        "type": "object",
+                                        "properties": {}
+                                    }
+                                }
+                            }
+                        }
+                    },
+                  "/github-search": { // Endpoint kedua
+                        "get": {
+                            "summary": "",
+                            "description": "Description for Github Search",
+                            "tags": ["Searching"],
                             "parameters": [
                                 {
                                     "name": "query",
@@ -228,7 +347,7 @@
     "post": {
         "summary": "",
         "description": "Description for Image To Anime",
-        "tags": ["Ai System"],
+        "tags": ["System"],
         "parameters": [
             {
                 "name": "url",
@@ -249,7 +368,7 @@
         }
     }
 },
-                                         "/Instagram": { // Endpoint kedua
+                  "/Instagram": { // Endpoint kedua
                         "get": {
                             "summary": "",
                             "description": "Description for Downloader Instagram",
@@ -277,8 +396,8 @@
 "/removeBackgroundV2": { // Endpoint kedua
     "post": {
         "summary": "",
-        "description": "Description for Image To Anime",
-        "tags": ["Ai System"],
+        "description": "Description for Image To RemoveBg",
+        "tags": ["Image Ai"],
         "parameters": [
             {
                 "name": "url",
