@@ -34,7 +34,7 @@ const { vits_inference, vits_model, vits_emotion } = require('./plugins/rvc-vits
 const app = express()  // Inisialisasi app
 const PORT = process.env.PORT || 3000
 
-global.creator = 'balxzzy!!'
+global.creator = 'Furina - Indraa Code'
 
 /** ==== { KONFIGURASI APLIKASI } ==== **/
 app.enable("trust proxy")
