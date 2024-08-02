@@ -290,57 +290,102 @@ exports.wallpaper = async (title, page = '1')  => {
   })
 }
 
+const axios = require('axios');
+const cheerio = require('cheerio');
+
 exports.ttstalk = async (username) => {
-return new Promise(async resolve => {
-	let retryCount = 0;
-	while (retryCount < 3) {
-		try {
-			const response = await axios.get(`https://tiktok.com/@${username}`);
-			const $ = cheerio.load(response.data);
+    return new Promise(async resolve => {
+        let retryCount = 0;
+        while (retryCount < 3) {
+            try {
+                const response = await axios.get(`https://tiktok.com/@${username}`);
+                const $ = cheerio.load(response.data);
 
-			
-			const jsonData = $('#__UNIVERSAL_DATA_FOR_REHYDRATION__').text();
-			const parsedData = JSON.parse(jsonData);
-			const userData = parsedData.__DEFAULT_SCOPE__['webapp.user-detail'].userInfo;
+                const jsonData = $('#__UNIVERSAL_DATA_FOR_REHYDRATION__').text();
+                const parsedData = JSON.parse(jsonData);
+                const userData = parsedData.__DEFAULT_SCOPE__['webapp.user-detail'].userInfo;
 
-			const userInfo = {
-				data: {
-					...userData.user,
-					...userData.stats
-				}
-			};
-			
-			resolve(userInfo);
-		} catch (err) {
-			console.error(`Attempt ${retryCount + 1} failed: ${err.message}`);
-			retryCount++;
-		}
-	}
-	throw new Error('Failed to fetch user data after 3 attempts.');
-})
-}
+                const userInfo = {
+                    data: {
+                        ...userData.user,
+                        ...userData.stats
+                    }
+                };
 
-  exports.chatbot = async (text, lang = 'id') => {
-   return new Promise(async resolve => {
-      try {
-         let form = new URLSearchParams
-         form.append('text', text)
-         form.append('lc', lang)
-         const json = await (await axios.post('https://api.simsimi.vn/v1/simtalk', form, {
-            headers: {
-               'Content-Type': 'application/x-www-form-urlencoded'
+                resolve(userInfo);
+                return;
+            } catch (err) {
+                console.error(`Attempt ${retryCount + 1} failed: ${err.message}`);
+                retryCount++;
             }
-         })).data
-         resolve({
-            msg: json.message
-         })
-      } catch (e) {
-         resolve({
-            msg: e.message
-         })
-      }
-   })
-}
+        }
+        throw new Error('Failed to fetch user data after 3 attempts.');
+    });
+};
+
+exports.igstalk = async (profileLink) => {
+    return new Promise(async resolve => {
+        let retryCount = 0;
+        while (retryCount < 3) {
+            try {
+                const url = `https://dumpoir.com/v/${profileLink}`;
+                const response = await axios.get(url);
+                const $ = cheerio.load(response.data);
+
+                const profileImage = $('div.avatar img').attr('src');
+                const username = $('h1').text().trim();
+                const name = $('h2').text().trim() || '-';
+                const bio = $('div.text-sm.font-serif').text().trim() || '-';
+                const postsCount = parseInt($('.stat-value.text-primary').text().trim(), 10) || 0;
+                const followers = $('div.stat-value.text-secondary').eq(0).text().trim() || 0;
+                const following = parseInt($('div.stat-value').eq(2).text().trim()) || 0;
+
+                const userInfo = {
+                    creator: 'Furinaa - Indraa Code',
+                    status: true,
+                    data: {
+                        profile_image: profileImage,
+                        username: username,
+                        name: name,
+                        bio: bio,
+                        followers: followers,
+                        following: following,
+                        posts_count: postsCount
+                    }
+                };
+
+                resolve(userInfo);
+                return;
+            } catch (err) {
+                console.error(`Attempt ${retryCount + 1} failed: ${err.message}`);
+                retryCount++;
+            }
+        }
+        throw new Error('Failed to fetch user data after 3 attempts.');
+    });
+};
+
+exports.chatbot = async (text, lang = 'id') => {
+    return new Promise(async resolve => {
+        try {
+            let form = new URLSearchParams();
+            form.append('text', text);
+            form.append('lc', lang);
+            const json = await (await axios.post('https://api.simsimi.vn/v1/simtalk', form, {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            })).data;
+            resolve({
+                msg: json.message
+            });
+        } catch (e) {
+            resolve({
+                msg: e.message
+            });
+        }
+    });
+};
 
 exports.mediafireDl = async (url) => {
 const res = await axios.get(url) 
@@ -419,7 +464,7 @@ exports.gpt3 = async (text) => {
 
         {
             role: "system",
-            content: "Saya adalah asisten virtual yang dikembangkan oleh Indraa dengan basis gpt-3.5-turbo dan nama saya itu Furina. Saya dirancang untuk membantu Anda dengan pertanyaan dan informasi yang Anda perlukan. Ada yang bisa saya bantu?"
+            content: "Saya adalah asisten virtual yang dikembangkan oleh OpenAI dengan basis gpt-3.5-turbo. Saya dirancang untuk membantu Anda dengan pertanyaan dan informasi yang Anda perlukan. Ada yang bisa saya bantu?"
         },
 
         {
@@ -441,7 +486,7 @@ exports.gpt4 = async (text) => {
 
         {
             role: "system",
-            content: "Saya adalah asisten virtual yang dikembangkan oleh Indraa dengan basis gpt-4 dan nama saya Furina. Saya dirancang untuk membantu Anda dengan pertanyaan dan informasi yang Anda perlukan. Ada yang bisa saya bantu?"
+            content: "Saya adalah asisten virtual yang dikembangkan oleh OpenAI dengan basis gpt-4. Saya dirancang untuk membantu Anda dengan pertanyaan dan informasi yang Anda perlukan. Ada yang bisa saya bantu?"
         },
 
         {
@@ -500,212 +545,4 @@ exports.ask = async (inputText) => {
     };
     const data = {
         contents: [{
-            parts: [{
-                text: inputText
-            }]
-        }]
-    };
-    const response = await axios.post(url, data, {
-        headers
-    })
-    console.log(response.data.candidates[0].content.parts[0].text);
-    return response.data.candidates[0].content.parts[0].text;
-}
-exports.askImage = async (inputText, inputImage) => {
-	try {
-		const buffer = await bufferlah(inputImage);
-		const resizedBuffer = await Resize(buffer);
-
-		const requestBody = {
-			"contents": [
-				{
-					"parts": [
-						{
-							"text": inputText
-						},
-						{
-							"inline_data": {
-								"mime_type": "image/jpeg",
-								"data": resizedBuffer.toString('base64')
-							}
-						}
-					]
-				}
-			]
-		};
-
-		const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro-vision:generateContent?key=${googlekey}`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(requestBody)
-		});
-
-		const data = await response.json();
-		console.log('API Response:', data); // Log the response for debugging
-
-		// Check if candidates exist and have at least one element
-		if (!data.candidates || data.candidates.length === 0) {
-			throw new Error('Tidak ada kandidat dalam respons API');
-		}
-
-		// Check if the expected structure exists
-		if (!data.candidates[0].content || !data.candidates[0].content.parts || data.candidates[0].content.parts.length === 0) {
-			throw new Error('Struktur data respons tidak sesuai');
-		}
-
-		return data.candidates[0].content.parts[0].text;
-	} catch (error) {
-		console.error('Error in askImage:', error); // Log detailed error
-		throw new Error('Terjadi kesalahan saat memproses permintaan: ' + error.message);
-	}
-};
-
-//fungsi black box
-exports.blackbox = async (content, web) => {
-    const url = "https://www.blackbox.ai/api/chat"
-    const headers = {
-        "Accept": "*/*",
-        "Accept-Language": "id-ID,en;q=0.5",
-        "Referer": "https://www.blackbox.ai/",
-        "Content-Type": "application/json",
-        "Origin": "https://www.blackbox.ai",
-        "Alt-Used": "www.blackbox.ai"
-    }
-    const data = {
-        messages: [{
-            role: "user",
-            content
-        }],
-        id: "chat-free",
-        previewToken: null,
-        userId: "",
-        codeModelMode: true,
-        agentMode: {},
-        trendingAgentMode: {},
-        isMicMode: false,
-        userSystemPrompt: "You are BlacBox Ai, a useful AI Model for millions of developers using Blackbox Code Chat that will answer coding questions and help them when writing code.",
-        maxTokens: 1024,
-        webSearchMode: web,
-        promptUrls: "",
-        isChromeExt: false,
-        githubToken: null
-    }
-    try {
-        const blackboxResponse = await fetch(url, {
-            method: "POST",
-            headers,
-            body: JSON.stringify(data)
-        })
-        const blackboxData = await blackboxResponse.text()
-        return blackboxData
-    } catch (error) {
-        console.error("Error fetching data:", error)
-        return null
-    }
-}
-exports.gptRP = async (data) => {
-const messages = data; 
-
-return g4f.chatCompletion(messages)
-}
-
-exports.toAnime = async (buffer) => {
-    try {
-        
-        const base64String = buffer.toString('base64');
-
-        const apiResponse = await axios.post('https://www.drawever.com/api/photo-to-anime', {
-            data: `data:image/png;base64,${base64String}`,
-        }, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        return 'https://www.drawever.com' + apiResponse.data.urls[1] || 'https://www.drawever.com' + apiResponse.data.urls[0];
-    } catch (error) {
-        console.log(error)
-    }
-}
-
-
-exports.openai = async (messages) => {
-    return new Promise(async resolve => {
-        const response = await axios.post('https://nexra.aryahcr.cc/api/chat/complements', {
-            messages: messages,
-            conversation_style: "Balanced",
-            markdown: false,
-            stream: true,
-            model: "Bing"
-        }, {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            responseType: "stream"
-        });
-
-        let accumulatedChunks = [];
-        let tmp = null;
-
-        response.data.on("data", (chunk) => {
-            let chk = chunk.toString().split("");
-
-            chk.forEach((data) => {
-                try {
-                    let parsedData = JSON.parse(data);
-                    if (parsedData.message) {
-                        accumulatedChunks.push(parsedData.message);
-                    }
-                    tmp = null;
-                } catch (e) {
-                    if (tmp === null) {
-                        tmp = data;
-                    } else {
-                        tmp += data;
-                        try {
-                            let parsedData = JSON.parse(tmp);
-                            if (parsedData.message) {
-                                accumulatedChunks.push(parsedData.message);
-                            }
-                            tmp = null;
-                        } catch (e) {
-                            // Continue accumulating data
-                        }
-                    }
-                }
-            });
-        });
-
-        response.data.on("end", () => {
-            if (accumulatedChunks.length > 0) {
-                let longestMessage = accumulatedChunks
-                    .filter(message => message !== null) // Filter out null values
-                    .reduce((longest, current) => {
-                        return current.length > longest.length ? current : longest;
-                    }, "");
-
-                console.log(longestMessage);
-                resolve(longestMessage)
-            } else {
-                console.log({
-                    code: 500,
-                    status: false,
-                    error: "INTERNAL_SERVER_ERROR",
-                    message: "No valid message received"
-                });
-            }
-        });
-
-        response.data.on("error", (err) => {
-            console.log({
-                code: 500,
-                status: false,
-                error: "INTERNAL_SERVER_ERROR",
-                message: "Stream error occurred"
-            });
-        });
-})
-};
-
+ 
