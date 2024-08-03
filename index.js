@@ -62,6 +62,9 @@ app.get('/server', (req, res) => {
 app.get('/database', (req, res) => {
     res.sendFile(path.join(__dirname, './interface/database.js'))
 })
+app.get('/logadmin', (req, res) => {
+    res.sendFile(path.join(__dirname, './interface/logadmin.js'))
+})
 app.get('/docs', (req, res) => {
     res.sendFile(path.join(__dirname, './docs/endpoint.html'))
 })
