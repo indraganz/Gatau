@@ -91,25 +91,15 @@ app.post('/api/nhentai/get', async (req, res) => {
     }
 });
 
-app.get('/api/checkLimit', (req, res) => {
+app.get('/api/checkLimit', async (req, res) => {
     const apiKey = req.query.apiKey;
 
-    if (!apiKey) {
-        return res.status(400).json({ error: 'API key is required' });
+    try {
+        const limitInfo = await checkLimit(apiKey);
+        res.json(limitInfo);
+    } catch (error) {
+        res.status(error.status || 500).json({ error: error.msg || 'Internal Server Error' });
     }
-
-    // Check if the global usage count has reached the limit
-    const limitReached = globalUsageCount >= apiKeyLimit;
-
-    if (!limitReached) {
-        globalUsageCount++; // Increment the global usage count
-    }
-
-    res.json({
-        limitReached,
-        currentUsage: globalUsageCount,
-        apiKeyLimit
-    });
 });
 
 app.listen(PORT, () => {
