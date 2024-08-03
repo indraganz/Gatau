@@ -25,4 +25,5 @@ function checkLimit(apiKey) {
         });
     });
 }
-module.exports = checkLimit
+
+module.exports = checkLimit;
