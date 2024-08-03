@@ -11,6 +11,7 @@ const fs = require('fs')
 
 /** ==== { IMPORT PLUGINS MODULE } ==== **/
 const capcutdl = require('./plugins/Capcut-Downloader.js')
+const checklim = require('./plugins/checklim.js')
 const ToolRemoveBg = require('./plugins/RemoveBackground.js')
 const { sfiledl, sfileSearch } = require('./plugins/Sfile-Downloader.js')
 const { spotifydl, searchSpotify } = require('./plugins/Spotify-Downloader.js')
