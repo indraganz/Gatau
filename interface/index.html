@@ -185,7 +185,7 @@
         <div class="menu" onclick="toggleMenu()">☰</div>
         <div class="menu-content" id="menuContent">
             <a href="/login">Login</a>
-            <a href="/register">Register</a>
+            <a href="/logadmin">Login Admin</a>
             <a href="#">Pricing</a>
         </div>
     </div>
@@ -195,7 +195,7 @@
             <h2>HOW DO APIs WORK?</h2>
             <p>API architecture is usually explained in terms of client and server. The application sending the request is called the client, and the application sending the response is called the server.</p>
             <div class="button-container">
-                <button id="playgroundButton" class="playground-button">Open Docs</button>
+                <button id="playgroundButton" class="playground-button">Playground</button>
                 <button id="contactButton" class="contact-button">Contact Us</button>
             </div>
         </div>
@@ -240,7 +240,7 @@
         });
 
         document.getElementById('contactButton').addEventListener('click', function() {
-            window.location.href = '/contacts'; // Link to your contact page
+            window.location.href = 'contacts.html'; // Link to your contact page
         });
 
         document.getElementById('docsButton').addEventListener('click', function() {
