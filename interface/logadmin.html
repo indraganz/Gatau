@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Furina API - Admin</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: url('https://telegra.ph/file/ba4e480d522915a8a0c3d.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+            width: 300px;
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Admin Login</h2>
+        <input type="text" id="username" placeholder="Username" />
+        <input type="password" id="password" placeholder="Password" />
+        <button onclick="login()">Login</button>
+        <div id="apiKeySection" style="display: none;">
+            <h2>Set API Key</h2>
+            <input type="text" id="apiKeyInput" placeholder="Enter API Key" />
+            <button onclick="setApiKey()">Set API Key</button>
+        </div>
+    </div>
+
+    <script>
+        let isAuthorized = false;
+
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username === 'farida' && password === 'indra suka farida') {
+                isAuthorized = true;
+                alert('Admin logged in successfully');
+                document.getElementById('apiKeySection').style.display = 'block';
+            } else {
+                alert('Invalid credentials');
+            }
+        }
+
+        function setApiKey() {
+            if (isAuthorized) {
+                const newApiKey = document.getElementById('apiKeyInput').value;
+                // Simpan API Key di sini (misalnya, ke server)
+                console.log("API Key yang baru diset:", newApiKey);
+                alert('API Key berhasil diatur!');
+            } else {
+                alert('You are not authorized to set the API key');
+            }
+        }
+    </script>
+</body>
+</html>
