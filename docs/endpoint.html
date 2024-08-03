@@ -5,32 +5,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>ndraa docs</title>
     <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@4.15.5/swagger-ui.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <style>
-        .topbar {
-            display: none;
+        body {
+            font-family: 'Arial', sans-serif;
+            background: url('https://telegra.ph/file/ba4e480d522915a8a0c3d.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden; /* Menyembunyikan scrollbar dari body */
         }
+
+        .swagger-container {
+            width: 80%;
+            max-width: 1200px;
+            height: 90vh; /* Mengatur tinggi untuk kontainer */
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow-y: auto; /* Membuat kontainer dapat di-scroll secara vertikal */
+            position: relative; /* Untuk positioning header */
+        }
+
+        .swagger-header {
+            position: absolute; /* Membuat header tetap di atas */
+            top: 20px; /* Jarak dari atas */
+            left: 20px; /* Jarak dari kiri */
+            font-size: 24px; /* Ukuran font */
+            font-weight: bold; /* Bold font */
+            color: #333; /* Warna font */
+            z-index: 10; /* Agar header di atas kontainer */
+        }
+
         .swagger-ui .topbar {
             display: none;
         }
-        .swagger-ui .topbar .download-url-wrapper,
-        .swagger-ui .topbar .search-container {
-            display: none;
-        }
+
         .opblock-summary-path {
             white-space: nowrap;
+            transition: all 0.3s ease;
         }
+
+        .opblock-summary-path:hover {
+            transform: scale(1.1);
+            color: #007bff;
+        }
+
         .opblock-summary-path a {
             display: inline-block;
             white-space: normal;
+            color: inherit;
+            text-decoration: none;
         }
-        .swagger-container {
-            margin-bottom: 20px;
+
+        .opblock-summary-path a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <div id="swagger-ui" class="swagger-container"></div>
+    <div class="swagger-container animate__animated animate__fadeInUp">
+        <div id="swagger-ui"></div>
+    </div>
     <script src="https://unpkg.com/swagger-ui-dist@4.15.5/swagger-ui-bundle.js"></script>
+    <script src="https://unpkg.com/swagger-ui-dist@4.15.5/swagger-ui-standalone-preset.js"></script>
     <script>
         window.onload = function() {
             const swaggerSpec = {
@@ -49,7 +93,7 @@
                     }
                 ],
                 "paths": {
-                    "/Gemini": { // Endpoint pertama
+                    "/Gemini": { 
                         "get": {
                             "summary": "",
                             "description": "Description for Gemini Instance",
@@ -74,7 +118,7 @@
                             }
                         }
                     },
-                    "/tiktok_stalk": { // Endpoint kedua
+                    "/tiktok_stalk": {
                         "get": {
                             "summary": "",
                             "description": "Description for Tiktok-stalk",
@@ -99,7 +143,7 @@
                             }
                         }
                     },
-                    "/instagram_stalk": { // Endpoint kedua
+                    "/instagram_stalk": {
                         "get": {
                             "summary": "",
                             "description": "Description for Tiktok-stalk",
@@ -124,7 +168,7 @@
                             }
                         }
                     },
-                    "/gpt-3_5-turbo": { // Endpoint kedua
+                    "/gpt-3_5-turbo": {
                         "get": {
                             "summary": "",
                             "description": "Description for Gpt 3.5 turbo",
@@ -149,7 +193,7 @@
                             }
                         }
                     },
-                    "/gpt-4_adv": { // Endpoint kedua
+                    "/gpt-4_adv": {
                         "get": {
                             "summary": "",
                             "description": "Description for Gpt 4 adv",
@@ -174,115 +218,113 @@
                             }
                         }
                     },
-"/vits_inference": {
-    "get": {
-      "summary": "",
-      "description": "Description for vits_interence",
-      "tags": ["Audio"],
-      "parameters": [
-        {
-          "name": "text",
-          "in": "query",
-          "description": "Enter text for Instance",
-          "required": false,
-          "type": "string"
-        },
-        {
-          "name": "model_id",
-          "in": "query",
-          "description": "Enter model ID for Instance",
-          "required": true,
-          "type": "string"
-        }
-      ],
-      "responses": {
-        "200": {
-          "description": "Successful response",
-          "schema": {
-            "type": "object",
-            "properties": {}
-          }
-        }
-      }
-    }
-},
-            "/voicevox-synthesis": {
-    "get": {
-      "summary": "",
-      "description": "Description for voicevox-synthesis",
-      "tags": ["Audio"],
-      "parameters": [
-        {
-          "name": "text",
-          "in": "query",
-          "description": "Enter text for Instance",
-          "required": false,
-          "type": "string"
-        },
-        {
-          "name": "speaker",
-          "in": "query",
-          "description": "Enter id speaker `1 - 10` ",
-          "required": true,
-          "type": "string"
-        }
-      ],
-      "responses": {
-        "200": {
-          "description": "Successful response",
-          "schema": {
-            "type": "object",
-            "properties": {}
+                    "/vits_inference": {
+                        "get": {
+                            "summary": "",
+                            "description": "Description for vits_interence",
+                            "tags": ["Audio"],
+                            "parameters": [
+                                {
+                                    "name": "text",
+                                    "in": "query",
+                                    "description": "Enter text for Instance",
+                                    "required": false,
+                                    "type": "string"
+                                },
+                                {
+                                    "name": "model_id",
+                                    "in": "query",
+                                    "description": "Enter model ID for Instance",
+                                    "required": true,
+                                    "type": "string"
+                                }
+                            ],
+                            "responses": {
+                                "200": {
+                                    "description": "Successful response",
+                                    "schema": {
+                                        "type": "object",
+                                        "properties": {}
                                     }
                                 }
                             }
                         }
                     },
-"/blackbox": {
-      "get": {
-        "summary": "",
-        "deprecated": false,
-        "description": "",
-        "tags": [
-          "Ai"
-        ],
-        "parameters": [
-          {
-            "name": "text",
-            "in": "query",
-            "description": "Enter text",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "webSearchMode",
-            "in": "query",
-            "description": " `true or false` in lower case, if upper case will be an error",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {}
-                }
-              }
-            }
-          }
-        },
-        "security": []
-      }
-    },
-                     "/pixiv": { // Endpoint kedua
+                    "/voicevox-synthesis": {
+                        "get": {
+                            "summary": "",
+                            "description": "Description for voicevox-synthesis",
+                            "tags": ["Audio"],
+                            "parameters": [
+                                {
+                                    "name": "text",
+                                    "in": "query",
+                                    "description": "Enter text for Instance",
+                                    "required": false,
+                                    "type": "string"
+                                },
+                                {
+                                    "name": "speaker",
+                                    "in": "query",
+                                    "description": "Enter id speaker `1 - 10` ",
+                                    "required": true,
+                                    "type": "string"
+                                }
+                            ],
+                            "responses": {
+                                "200": {
+                                    "description": "Successful response",
+                                    "schema": {
+                                        "type": "object",
+                                        "properties": {}
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "/blackbox": {
+                        "get": {
+                            "summary": "",
+                            "deprecated": false,
+                            "description": "",
+                            "tags": ["Ai"],
+                            "parameters": [
+                                {
+                                    "name": "text",
+                                    "in": "query",
+                                    "description": "Enter text",
+                                    "required": false,
+                                    "schema": {
+                                        "type": "string"
+                                    }
+                                },
+                                {
+                                    "name": "webSearchMode",
+                                    "in": "query",
+                                    "description": " `true or false` in lower case, if upper case will be an error",
+                                    "required": false,
+                                    "schema": {
+                                        "type": "string"
+                                    }
+                                }
+                            ],
+                            "responses": {
+                                "200": {
+                                    "description": "Successful response",
+                                    "content": {
+                                        "application/json": {
+                                            "schema": {
+                                                "type": "object",
+                                                "properties": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "security": []
+                        }
+                    },
+                    "/pixiv": {
                         "get": {
                             "summary": "",
                             "description": "Description for Pixiv",
@@ -307,7 +349,7 @@
                             }
                         }
                     },
-                     "/pixiv-r18": { // Endpoint kedua
+                    "/pixiv-r18": {
                         "get": {
                             "summary": "",
                             "description": "Description for Pixiv-r18",
@@ -332,7 +374,7 @@
                             }
                         }
                     },
-                "/jp.freepik": { // Endpoint kedua
+                    "/jp.freepik": {
                         "get": {
                             "summary": "",
                             "description": "Description for freepik",
@@ -357,7 +399,7 @@
                             }
                         }
                     },
-                     "/removeBackground": { // Endpoint kedua
+                    "/removeBackground": {
                         "get": {
                             "summary": "",
                             "description": "Description for RemoveBg",
@@ -382,7 +424,7 @@
                             }
                         }
                     },
-                    "/spotify-search": { // Endpoint kedua
+                    "/spotify-search": {
                         "get": {
                             "summary": "",
                             "description": "Description for Spotify Search",
@@ -407,7 +449,7 @@
                             }
                         }
                     },
-                  "/tiktok-dl": { // Endpoint kedua
+                    "/tiktok-dl": {
                         "get": {
                             "summary": "",
                             "description": "Description for Tiktok Download",
@@ -432,7 +474,7 @@
                             }
                         }
                     },
-                  "/github-search": { // Endpoint kedua
+                    "/github-search": {
                         "get": {
                             "summary": "",
                             "description": "Description for Github Search",
@@ -457,113 +499,16 @@
                             }
                         }
                     },
-"/image-toAnime": { // Endpoint kedua
-    "post": {
-        "summary": "",
-        "description": "Description for Image To Anime",
-        "tags": ["Image Ai"],
-        "parameters": [
-            {
-                "name": "url",
-                "in": "query",
-                "description": "Enter url for Instance",
-                "required": false,
-                "type": "string"
-            }
-        ],
-        "responses": {
-            "200": {
-                "description": "Successful response",
-                "schema": {
-                    "type": "object",
-                    "properties": {}
-                }
-            }
-        }
-    }
-},
-              "/text2image/style": { // Endpoint kedua
-                        "get": {
+                    "/image-toAnime": {
+                        "post": {
                             "summary": "",
-                            "description": "Description for text2image style",
+                            "description": "Description for Image To Anime",
                             "tags": ["Image Ai"],
-                            "parameters": [
-                            ],
-                            "responses": {
-                                "200": {
-                                    "description": "Successful response",
-                                    "schema": {
-                                        "type": "object",
-                                        "properties": {}
-                                    }
-                                }
-                            }
-                        }
-                    },
-            "/text2image/sampler": { // Endpoint kedua
-                        "get": {
-                            "summary": "",
-                            "description": "Description for text2image sampler",
-                            "tags": ["Image Ai"],
-                            "parameters": [
-                            ],
-                            "responses": {
-                                "200": {
-                                    "description": "Successful response",
-                                    "schema": {
-                                        "type": "object",
-                                        "properties": {}
-                                    }
-                                }
-                            }
-                        }
-                    },
-"/text2image/model": { // Endpoint kedua
-    "get": {
-        "summary": "",
-        "description": "Description for text2image model",
-        "tags": ["Image Ai"],
-        "parameters": [
-        ],
-        "responses": {
-            "200": {
-                "description": "Successful response",
-                "schema": {
-                    "type": "object",
-                    "properties": {}
-                }
-            }
-        }
-    }
-},
-              "/GetAvatar_id": { // Endpoint kedua
-                        "get": {
-                            "summary": "",
-                            "description": "Description for Get Avatar",
-                            "tags": ["Image Ai"],
-                            "parameters": [
-                            ],
-                            "responses": {
-                                "200": {
-                                    "description": "Successful response",
-                                    "schema": {
-                                        "type": "object",
-                                        "properties": {}
-                                    }
-                                }
-                            }
-                        }
-                    },
-                  "/Instagram": { // Endpoint kedua
-                        "get": {
-                            "summary": "",
-                            "description": "Description for Downloader Instagram",
-                            "tags": ["Downloader"],
                             "parameters": [
                                 {
                                     "name": "url",
                                     "in": "query",
-                                    "description": "Enter text for Instance",
+                                    "description": "Enter url for Instance",
                                     "required": false,
                                     "type": "string"
                                 }
@@ -579,26 +524,18 @@
                             }
                         }
                     },
-"/removeBackgroundV2": { // Endpoint kedua
-    "post": {
-        "summary": "",
-        "description": "Description for Image To RemoveBg",
-        "tags": ["Image Ai"],
-        "parameters": [
-            {
-                "name": "url",
-                "in": "query",
-                "description": "Enter url for Instance",
-                "required": false,
-                "type": "string"
-            }
-        ],
-        "responses": {
-            "200": {
-                "description": "Successful response",
-                "schema": {
-                    "type": "object",
-                    "properties": {}
+                    "/text2image/style": {
+                        "get": {
+                            "summary": "",
+                            "description": "Description for text2image style",
+                            "tags": ["Image Ai"],
+                            "parameters": [],
+                            "responses": {
+                                "200": {
+                                    "description": "Successful response",
+                                    "schema": {
+                                        "type": "object",
+                                        "properties": {}
                                     }
                                 }
                             }
@@ -606,20 +543,19 @@
                     }
                 }
             };
-            
 
-            SwaggerUIBundle({
+            const ui = SwaggerUIBundle({
                 spec: swaggerSpec,
                 dom_id: '#swagger-ui',
                 presets: [
+                    SwaggerUIStandalonePreset,
                     SwaggerUIBundle.presets.apis,
-                    SwaggerUIBundle.SwaggerUIStandalonePreset
+                    SwaggerUIStandalonePreset,
                 ],
-                layout: "BaseLayout",
-                deepLinking: true,
-                filter: false
+                layout: "BaseLayout"
             });
-        };
+        }
     </script>
 </body>
 </html>
+
