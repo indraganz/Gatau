@@ -29,8 +29,6 @@ const { xnxxsearch, xnxxdl, wallpaper, pin, snapsave, ttstalk, chatbot, mediafir
 const { translate } = require('bing-translate-api');
 const { createImage, getList } = require("./plugins/animeAvatars.js")
 const { vits_inference, vits_model, vits_emotion } = require('./plugins/rvc-vits.js')
-const { connectMongoDb } = require('./MongoDB/mongodb');
-const { resetAllLimit, getApikey } = require('./MongoDB/function');
 
 /** ==== { INISIALISASI APLIKASI } ==== **/
 const app = express()  // Inisialisasi app
