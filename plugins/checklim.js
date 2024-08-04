@@ -5,6 +5,7 @@ const PORT = process.env.PORT || 3000;
 let globalUsageCount = 0; // Global counter for all API keys
 const apiKeyLimit = 100; // Daily limit for all API keys
 
+// checklim.js
 function checkLimit(apiKey, options = {}) {
     return new Promise((resolve, reject) => {
         if (!apiKey) {
@@ -13,11 +14,10 @@ function checkLimit(apiKey, options = {}) {
 
         // Special case for 'indrafarida'
         if (apiKey === 'indrafarida') {
-            // If API key is 'indrafarida', do not decrement usage
             return resolve({
                 limitReached: false,
                 currentUsage: globalUsageCount,
-                apiKeyLimit: -1 // Menunjukkan tidak ada limit
+                apiKeyLimit: -1
             });
         }
 
@@ -30,18 +30,20 @@ function checkLimit(apiKey, options = {}) {
             });
         }
 
-        // Check if the global usage count has reached the limit for other API keys
-        const limitReached = globalUsageCount >= apiKeyLimit;
+        // Cek API key lainnya
+        if (apiKey !== 'indrafarida') {
+            const limitReached = globalUsageCount >= apiKeyLimit;
 
-        if (!limitReached) {
-            globalUsageCount++; // Increment the global usage count for other API keys
+            if (!limitReached) {
+                globalUsageCount++; // Increment global usage only for non-indrafarida keys
+            }
+
+            resolve({
+                limitReached,
+                currentUsage: globalUsageCount,
+                apiKeyLimit
+            });
         }
-
-        resolve({
-            limitReached,
-            currentUsage: globalUsageCount,
-            apiKeyLimit
-        });
     });
 }
 
