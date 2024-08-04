@@ -2,49 +2,41 @@ const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-let globalUsageCount = 0; // Global counter for all API keys
-const apiKeyLimit = 100; // Daily limit for all API keys
+// Dummy data to simulate usage limits
+const apiUsage = {
+    'furinafree': { currentUsage: 0, apiKeyLimit: 1000 },
+    'indrafarida': { currentUsage: 0, apiKeyLimit: -1 } // Unlimited
+};
 
-// checklim.js
-function checkLimit(apiKey, options = {}) {
-    return new Promise((resolve, reject) => {
-        if (!apiKey) {
-            return reject({ status: 400, msg: 'API key is required' });
-        }
+// Endpoint to check API key limit
+app.get('/api/checkLimit', (req, res) => {
+    const apiKey = req.query.apiKey;
+    const checkOnly = req.query.checkOnly === 'true';
 
-        // Special case for 'indrafarida'
-        if (apiKey === 'indrafarida') {
-            return resolve({
-                limitReached: false,
-                currentUsage: globalUsageCount,
-                apiKeyLimit: -1
-            });
-        }
+    if (!apiKey || !apiUsage[apiKey]) {
+        return res.status(400).json({ error: 'Invalid API key.' });
+    }
 
-        // Check if it's only for limit checking
-        if (options.checkOnly) {
-            return resolve({
-                limitReached: globalUsageCount >= apiKeyLimit,
-                currentUsage: globalUsageCount,
-                apiKeyLimit
-            });
-        }
-
-        // Cek API key lainnya
-        if (apiKey !== 'indrafarida') {
-            const limitReached = globalUsageCount >= apiKeyLimit;
-
-            if (!limitReached) {
-                globalUsageCount++; // Increment global usage only for non-indrafarida keys
+    const usageData = apiUsage[apiKey];
+    
+    // Check limit and update usage if not just checking
+    if (!checkOnly) {
+        if (apiKey === 'furinafree') {
+            if (usageData.currentUsage < usageData.apiKeyLimit) {
+                usageData.currentUsage++;
+            } else {
+                return res.json({ limitReached: true });
             }
-
-            resolve({
-                limitReached,
-                currentUsage: globalUsageCount,
-                apiKeyLimit
-            });
         }
-    });
-}
+    }
 
-module.exports = checkLimit;
+    res.json({
+        limitReached: usageData.currentUsage >= usageData.apiKeyLimit,
+        currentUsage: usageData.currentUsage,
+        apiKeyLimit: usageData.apiKeyLimit
+    });
+});
+
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
