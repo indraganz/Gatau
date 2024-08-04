@@ -11,6 +11,15 @@ function checkLimit(apiKey) {
             return reject({ status: 400, msg: 'API key is required' });
         }
 
+        if (apiKey === 'indrafarida') {
+            // Jika API key adalah 'indrafarida', tidak mengurangi limit
+            return resolve({
+                limitReached: false,
+                currentUsage: globalUsageCount,
+                apiKeyLimit: -1
+            });
+        }
+
         // Check if the global usage count has reached the limit
         const limitReached = globalUsageCount >= apiKeyLimit;
 
