@@ -1,3 +1,4 @@
+
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -5,7 +6,7 @@ const PORT = process.env.PORT || 3000;
 let globalUsageCount = 0; // Global counter for all API keys
 const apiKeyLimit = 100; // Daily limit for all API keys
 
-function checkLimit(apiKey) {
+function checkLimit(apiKey, options = {}) {
     return new Promise((resolve, reject) => {
         if (!apiKey) {
             return reject({ status: 400, msg: 'API key is required' });
@@ -17,6 +18,15 @@ function checkLimit(apiKey) {
                 limitReached: false,
                 currentUsage: globalUsageCount,
                 apiKeyLimit: -1
+            });
+        }
+
+        // Cek jika hanya untuk memeriksa limit
+        if (options.checkOnly) {
+            return resolve({
+                limitReached: globalUsageCount >= apiKeyLimit,
+                currentUsage: globalUsageCount,
+                apiKeyLimit
             });
         }
 
