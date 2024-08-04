@@ -1,4 +1,3 @@
-
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -12,8 +11,9 @@ function checkLimit(apiKey, options = {}) {
             return reject({ status: 400, msg: 'API key is required' });
         }
 
+        // Special case for 'indrafarida'
         if (apiKey === 'indrafarida') {
-            // Jika API key adalah 'indrafarida', tidak mengurangi limit
+            // If API key is 'indrafarida', do not decrement usage
             return resolve({
                 limitReached: false,
                 currentUsage: globalUsageCount,
@@ -21,7 +21,7 @@ function checkLimit(apiKey, options = {}) {
             });
         }
 
-        // Cek jika hanya untuk memeriksa limit
+        // Check if it's only for limit checking
         if (options.checkOnly) {
             return resolve({
                 limitReached: globalUsageCount >= apiKeyLimit,
