@@ -17,7 +17,7 @@ function checkLimit(apiKey, options = {}) {
             return resolve({
                 limitReached: false,
                 currentUsage: globalUsageCount,
-                apiKeyLimit: -1
+                apiKeyLimit: -1 // Menunjukkan tidak ada limit
             });
         }
 
@@ -30,11 +30,11 @@ function checkLimit(apiKey, options = {}) {
             });
         }
 
-        // Check if the global usage count has reached the limit
+        // Check if the global usage count has reached the limit for other API keys
         const limitReached = globalUsageCount >= apiKeyLimit;
 
         if (!limitReached) {
-            globalUsageCount++; // Increment the global usage count
+            globalUsageCount++; // Increment the global usage count for other API keys
         }
 
         resolve({
