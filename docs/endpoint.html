@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+                            <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -39,7 +39,7 @@
     </style>
 </head>
 <body>
-    <div class="swagger-container animate__animated animate__fadeInUp">
+  <div class="swagger-container animate__animated animate__fadeInUp">
         <div id="swagger-ui"></div>
     </div>
     <script src="https://unpkg.com/swagger-ui-dist@4.15.5/swagger-ui-bundle.js"></script>
@@ -47,7 +47,7 @@
     <script>
         let apiKey = 'furinafree';
         let usageCount = 0;
-        const apiKeyLimit = 1000;
+        const apiKeyLimit = 100;
 
         function initSwaggerUI() {
             const swaggerSpec = {
@@ -74,7 +74,8 @@
                             description: "Description for Gemini Instance",
                             tags: ["Ai"],
                             parameters: [
-                                { name: "text", in: "query", description: "Enter text for Instance 1", required: false, type: "string" }
+                                { name: "text", in: "query", description: "Enter text for Instance 1", required: false, type: "string" },
+                                { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
                             ],
                             responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
                         }
@@ -85,7 +86,8 @@
                             description: "Description for Tiktok-stalk",
                             tags: ["Stalker"],
                             parameters: [
-                                { name: "username", in: "query", description: "Enter text for Instance", required: false, type: "string" }
+                                { name: "username", in: "query", description: "Enter text for Instance", required: false, type: "string" },
+                                { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
                             ],
                             responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
                         }
@@ -96,7 +98,8 @@
                             description: "Description for Instagram-stalk",
                             tags: ["Stalker"],
                             parameters: [
-                                { name: "user", in: "query", description: "Enter text for Instance", required: false, type: "string" }
+                                { name: "user", in: "query", description: "Enter text for Instance", required: false, type: "string" },
+                                { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
                             ],
                             responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
                         }
@@ -107,7 +110,8 @@
                             description: "Description for Gpt 3.5 turbo",
                             tags: ["Ai"],
                             parameters: [
-                                { name: "text", in: "query", description: "Enter text for Instance", required: false, type: "string" }
+                                { name: "text", in: "query", description: "Enter text for Instance", required: false, type: "string" },
+                                { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
                             ],
                             responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
                         }
@@ -118,7 +122,8 @@
                             description: "Description for otakudesu_search",
                             tags: ["Searching"],
                             parameters: [
-                                { name: "text", in: "query", description: "Enter text for Instance", required: false, type: "string" }
+                                { name: "text", in: "query", description: "Enter text for Instance", required: false, type: "string" },
+                                { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
                             ],
                             responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
                         }
@@ -128,6 +133,9 @@
                             summary: "",
                             description: "Description for Get avatar",
                             tags: ["Image Ai"],
+                            parameters: [
+                                { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
+                            ],
                             responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
                         }
                     },
@@ -137,7 +145,8 @@
                             description: "Description for Gpt 4 adv",
                             tags: ["Ai"],
                             parameters: [
-                                { name: "text", in: "query", description: "Enter text for Instance", required: false, type: "string" }
+                                { name: "text", in: "query", description: "Enter text for Instance", required: false, type: "string" },
+                                { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
                             ],
                             responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
                         }
@@ -148,7 +157,8 @@
                             description: "Description for mixtral-8x7B",
                             tags: ["Ai"],
                             parameters: [
-                                { name: "text", in: "query", description: "Enter text for Instance", required: false, type: "string" }
+                                { name: "text", in: "query", description: "Enter text for Instance", required: false, type: "string" },
+                                { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
                             ],
                             responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
                         }
@@ -160,7 +170,8 @@
                             tags: ["Audio"],
                             parameters: [
                                 { name: "text", in: "query", description: "Enter text for Instance", required: false, type: "string" },
-                                { name: "model_id", in: "query", description: "Enter model ID for Instance", required: true, type: "string" }
+                                { name: "model_id", in: "query", description: "Enter model ID for Instance", required: true, type: "string" },
+                                { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
                             ],
                             responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
                         }
@@ -172,7 +183,8 @@
                             tags: ["Audio"],
                             parameters: [
                                 { name: "text", in: "query", description: "Enter text for Instance", required: false, type: "string" },
-                                { name: "speaker", in: "query", description: "Enter id speaker `1 - 10`", required: true, type: "string" }
+                                { name: "speaker", in: "query", description: "Enter id speaker `1 - 10`", required: true, type: "string" },
+                                { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
                             ],
                             responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
                         }
@@ -184,20 +196,21 @@
                             description: "",
                             tags: ["Ai"],
                             parameters: [
-                                { name: "text", in: "query", description: "Enter text", required: false, schema: { type: "string" } },
-                                { name: "webSearchMode", in: "query", description: "`true or false` in lower case, if upper case will be an error", required: false, schema: { type: "string" } }
+                                { name: "text", in: "query", description: "Enter text", required: false, type: "string" },
+                                { name: "webSearchMode", in: "query", description: "`true or false` in lower case, if upper case will be an error", required: false, type: "string" },
+                                { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
                             ],
-                            responses: { "200": { description: "Successful response", content: { "application/json": { schema: { type: "object", properties: {} } } } } },
-                            security: []
+                            responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
                         }
                     },
                     "/removeBackground": {
                         get: {
                             summary: "",
-                            description: "Description for Downloader Tiktok",
+                            description: "Description for remove background",
                             tags: ["Image Ai"],
                             parameters: [
-                                { name: "url", in: "query", description: "Enter text for Instance", required: false, type: "string" }
+                                { name: "url", in: "query", description: "Enter text for Instance", required: false, type: "string" },
+                                { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
                             ],
                             responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
                         }
@@ -208,7 +221,8 @@
                             description: "Description for Downloader Tiktok",
                             tags: ["Downloader"],
                             parameters: [
-                                { name: "url", in: "query", description: "Enter text for Instance", required: false, type: "string" }
+                                { name: "url", in: "query", description: "Enter text for Instance", required: false, type: "string" },
+                                { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
                             ],
                             responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
                         }
@@ -219,7 +233,8 @@
                             description: "Description for Pixiv",
                             tags: ["Downloader"],
                             parameters: [
-                                { name: "query", in: "query", description: "Enter text for Instance", required: false, type: "string" }
+                                { name: "query", in: "query", description: "Enter text for Instance", required: false, type: "string" },
+                                { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
                             ],
                             responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
                         }
@@ -230,7 +245,8 @@
                             description: "Description for Pixiv-r18",
                             tags: ["Downloader"],
                             parameters: [
-                                { name: "query", in: "query", description: "Enter text for Instance", required: false, type: "string" }
+                                { name: "query", in: "query", description: "Enter text for Instance", required: false, type: "string" },
+                                { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
                             ],
                             responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
                         }
@@ -238,50 +254,57 @@
                     "/text2image/style": {
                         get: {
                             summary: "",
-                            description: "Description for text2image",
+                            description: "Description for text2image style",
                             tags: ["Image Ai"],
-                            parameters: [],
+                            parameters: [
+                                { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
+                            ],
                             responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
                         }
                     },
-                                        "/text2image/model": {
+                    "/text2image/model": {
                         get: {
                             summary: "",
-                            description: "Description for text2image",
+                            description: "Description for text2image model",
                             tags: ["Image Ai"],
-                            parameters: [],
+                            parameters: [
+                                { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
+                            ],
                             responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
                         }
                     },
-                  "/spotify-search": {
+                    "/spotify-search": {
                         get: {
                             summary: "",
                             description: "Description for spotify-search",
                             tags: ["Searching"],
                             parameters: [
-                                { name: "query", in: "query", description: "Enter text for Instance", required: false, type: "string" }
+                                { name: "query", in: "query", description: "Enter text for Instance", required: false, type: "string" },
+                                { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
                             ],
                             responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
                         }
-                  },
-                  "/github-search": {
+                    },
+                    "/github-search": {
                         get: {
                             summary: "",
                             description: "Description for github-search",
                             tags: ["Searching"],
                             parameters: [
-                                { name: "query", in: "query", description: "Enter text for Instance", required: false, type: "string" }
+                                { name: "query", in: "query", description: "Enter text for Instance", required: false, type: "string" },
+                                { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
                             ],
                             responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
                         }
-                                      },
+                    },
                     "/jp.freepik": {
                         get: {
                             summary: "",
                             description: "Description for freepik",
                             tags: ["Ai"],
                             parameters: [
-                                { name: "query", in: "query", description: "Enter text for Instance", required: false, type: "string" }
+                                { name: "query", in: "query", description: "Enter text for Instance", required: false, type: "string" },
+                                { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
                             ],
                             responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
                         }
@@ -308,23 +331,25 @@
                 ],
                 layout: "BaseLayout",
                 requestInterceptor: (request) => {
-                    const urlParams = new URLSearchParams(window.location.search);
-                    const userApiKey = urlParams.get('apiKey') || apiKey;
+    const urlParams = new URLSearchParams(window.location.search);
+    const userApiKey = urlParams.get('apiKey') || apiKey;
 
-                    if (userApiKey === 'furinafree') {
-                        if (usageCount >= apiKeyLimit) {
-                            alert('API key limit reached. Please try again later.');
-                            return false; // Block the request
-                        } else {
-                            usageCount++; // Increment usage count
-                        }
-                    }
+    // Cek limit penggunaan
+    if (userApiKey === 'furinafree') {
+        if (usageCount >= apiKeyLimit) {
+            alert('API key limit reached. Please try again later.');
+            return false; // Blok permintaan
+        }
+        usageCount++; // Tambah penggunaan hanya untuk 'furinafree'
+    } else if (userApiKey === 'indrafarida') {
+        // Tidak mengurangi limit untuk 'indrafarida'
+    }
 
-                    // Prevent duplicate API keys
-                    if (!request.url.includes('apiKey=')) {
-                        request.url += `&apiKey=${userApiKey}`;
-                    }
-                    return request;
+    // Prevent duplicate API keys
+    if (!request.url.includes('apiKey=')) {
+        request.url += `&apiKey=${userApiKey}`;
+    }
+    return request;
                 }
             });
         }
@@ -335,4 +360,3 @@
     </script>
 </body>
 </html>
-
