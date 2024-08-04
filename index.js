@@ -93,32 +93,37 @@ app.post('/api/nhentai/get', async (req, res) => {
 
 app.get('/api/checkLimit', async (req, res) => {
     const apiKey = req.query.apiKey;
-    const checkOnly = req.query.checkOnly === 'true'; // Ambil nilai checkOnly dari query
 
     try {
-        let limitInfo;
-
-        // Check API key and retrieve limit info without decrementing usage
-        if (checkOnly) {
-            limitInfo = await checkLimit(apiKey, { checkOnly: true });
-        } else {
-            // Handle the case for a specific API key
-            if (apiKey === 'indrafarida') {
-                limitInfo = {
-                    limitReached: false,
-                    currentUsage: 0,
-                    apiKeyLimit: -1
-                };
-            } else {
-                // Fetch limit info for the provided API key normally
-                limitInfo = await checkLimit(apiKey);
-            }
-        }
-
+        const limitInfo = await checkLimit.checkLimit(apiKey);
         res.json(limitInfo);
     } catch (error) {
         res.status(error.status || 500).json({ error: error.msg || 'Internal Server Error' });
     }
+});
+
+// Endpoint untuk menambah penggunaan (contoh)
+app.post('/api/addUsage', async (req, res) => {
+    const { apiKey, amount } = req.body;
+
+    if (!apiKey || !amount || isNaN(amount)) {
+        return res.status(400).json({ error: 'API key and amount are required.' });
+    }
+
+    try {
+        const result = await checkLimit.addUsage(apiKey, parseInt(amount));
+        res.json({
+            message: 'Usage added successfully.',
+            currentUsage: result.currentUsage,
+            apiKeyLimit: result.apiKeyLimit
+        });
+    } catch (error) {
+        res.status(error.status || 500).json({ error: error.msg || 'Internal Server Error' });
+    }
+});
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });
 
 app.get('/api/nhentai/search', async (req, res) => {
