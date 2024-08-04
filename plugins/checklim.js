@@ -3,40 +3,56 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Dummy data to simulate usage limits
-const apiUsage = {
-    'furinafree': { currentUsage: 0, apiKeyLimit: 1000 },
-    'indrafarida': { currentUsage: 0, apiKeyLimit: -1 } // Unlimited
+let apiKeyLimits = {
+    'furinafree': { usage: 0, limit: 100 }, // Contoh penggunaan untuk API key 'furinafree'
+    'indrafarida': { usage: 0, limit: -1 } // Tidak terbatas untuk 'indrafarida'
 };
 
-// Endpoint to check API key limit
-app.get('/api/checkLimit', (req, res) => {
-    const apiKey = req.query.apiKey;
-    const checkOnly = req.query.checkOnly === 'true';
-
-    if (!apiKey || !apiUsage[apiKey]) {
-        return res.status(400).json({ error: 'Invalid API key.' });
-    }
-
-    const usageData = apiUsage[apiKey];
-    
-    // Check limit and update usage if not just checking
-    if (!checkOnly) {
-        if (apiKey === 'furinafree') {
-            if (usageData.currentUsage < usageData.apiKeyLimit) {
-                usageData.currentUsage++;
-            } else {
-                return res.json({ limitReached: true });
-            }
+function checkLimit(apiKey) {
+    return new Promise((resolve, reject) => {
+        if (!apiKey) {
+            return reject({ status: 400, msg: 'API key is required' });
         }
-    }
 
-    res.json({
-        limitReached: usageData.currentUsage >= usageData.apiKeyLimit,
-        currentUsage: usageData.currentUsage,
-        apiKeyLimit: usageData.apiKeyLimit
+        const keyData = apiKeyLimits[apiKey];
+
+        if (!keyData) {
+            return reject({ status: 400, msg: 'Invalid API key' });
+        }
+
+        // Periksa apakah limit penggunaan telah tercapai
+        const limitReached = keyData.usage >= keyData.limit;
+
+        if (!limitReached) {
+            keyData.usage++; // Tambah penggunaan
+        }
+
+        resolve({
+            limitReached,
+            currentUsage: keyData.usage,
+            apiKeyLimit: keyData.limit
+        });
     });
-});
+}
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+// Fungsi untuk menambah penggunaan (jika diperlukan)
+function addUsage(apiKey, amount) {
+    return new Promise((resolve, reject) => {
+        const keyData = apiKeyLimits[apiKey];
+
+        if (!keyData) {
+            return reject({ status: 400, msg: 'Invalid API key' });
+        }
+
+        keyData.usage += amount; // Tambah penggunaan
+        resolve({
+            currentUsage: keyData.usage,
+            apiKeyLimit: keyData.limit
+        });
+    });
+}
+
+module.exports = {
+    checkLimit,
+    addUsage
+};
