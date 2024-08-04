@@ -97,22 +97,20 @@ app.get('/api/checkLimit', async (req, res) => {
 
     try {
         let limitInfo;
-        
-        // Check API key and retrieve limit info without decrementing usage
-        if (checkOnly) {
-            limitInfo = await checkLimit(apiKey, { checkOnly: true });
+
+        // Cek limit untuk indrafarida dan furinafree
+        if (apiKey === 'indrafarida') {
+            // Tidak mengurangi limit dan penggunaan untuk indrafarida
+            limitInfo = {
+                limitReached: false,
+                currentUsage: 0,
+                apiKeyLimit: -1 // Menunjukkan tidak ada limit
+            };
+        } else if (apiKey === 'furinafree') {
+            // Menggunakan checkLimit untuk furinafree
+            limitInfo = await checkLimit(apiKey);
         } else {
-            // Handle the case for a specific API key
-            if (apiKey === 'indrafarida') {
-                limitInfo = {
-                    limitReached: false,
-                    currentUsage: 0,
-                    apiKeyLimit: -1
-                };
-            } else {
-                // Fetch limit info for the provided API key normally
-                limitInfo = await checkLimit(apiKey);
-            }
+            return res.status(403).json({ error: 'API key tidak valid.' });
         }
 
         res.json(limitInfo);
@@ -121,9 +119,8 @@ app.get('/api/checkLimit', async (req, res) => {
     }
 });
 
-// Start the server
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`Server berjalan di port ${PORT}`);
 });
 
 app.get('/api/nhentai/search', async (req, res) => {
