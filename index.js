@@ -103,7 +103,16 @@ app.get('/api/checkLimit', async (req, res) => {
                 apiKeyLimit: -1
             };
         } else {
-            limitInfo = await checkLimit(apiKey);
+            // Cek jika parameter checkOnly ada
+            const checkOnly = req.query.checkOnly === 'true';
+
+            if (checkOnly) {
+                // Hanya kembalikan informasi limit tanpa mengubah penggunaan
+                limitInfo = await checkLimit(apiKey, { checkOnly: true });
+            } else {
+                // Jika tidak, panggil checkLimit seperti biasa
+                limitInfo = await checkLimit(apiKey);
+            }
         }
         res.json(limitInfo);
     } catch (error) {
@@ -111,9 +120,6 @@ app.get('/api/checkLimit', async (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
 
 app.get('/api/nhentai/search', async (req, res) => {
     try {
