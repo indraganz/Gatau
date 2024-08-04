@@ -93,33 +93,27 @@ app.post('/api/nhentai/get', async (req, res) => {
 
 app.get('/api/checkLimit', async (req, res) => {
     const apiKey = req.query.apiKey;
+    const checkOnly = req.query.checkOnly === 'true'; // Ambil nilai checkOnly dari query
 
     try {
         let limitInfo;
-        if (apiKey === 'indrafarida') {
+        if (checkOnly) {
+            // Panggil checkLimit dengan parameter checkOnly
+            limitInfo = await checkLimit(apiKey, { checkOnly: true });
+        } else if (apiKey === 'indrafarida') {
             limitInfo = {
                 limitReached: false,
                 currentUsage: 0,
                 apiKeyLimit: -1
             };
         } else {
-            // Cek jika parameter checkOnly ada
-            const checkOnly = req.query.checkOnly === 'true';
-
-            if (checkOnly) {
-                // Hanya kembalikan informasi limit tanpa mengubah penggunaan
-                limitInfo = await checkLimit(apiKey, { checkOnly: true });
-            } else {
-                // Jika tidak, panggil checkLimit seperti biasa
-                limitInfo = await checkLimit(apiKey);
-            }
+            limitInfo = await checkLimit(apiKey);
         }
         res.json(limitInfo);
     } catch (error) {
         res.status(error.status || 500).json({ error: error.msg || 'Internal Server Error' });
     }
 });
-
 
 app.get('/api/nhentai/search', async (req, res) => {
     try {
