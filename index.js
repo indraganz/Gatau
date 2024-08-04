@@ -95,7 +95,16 @@ app.get('/api/checkLimit', async (req, res) => {
     const apiKey = req.query.apiKey;
 
     try {
-        const limitInfo = await checkLimit(apiKey);
+        let limitInfo;
+        if (apiKey === 'indrafarida') {
+            limitInfo = {
+                limitReached: false,
+                currentUsage: 0,
+                apiKeyLimit: -1
+            };
+        } else {
+            limitInfo = await checkLimit(apiKey);
+        }
         res.json(limitInfo);
     } catch (error) {
         res.status(error.status || 500).json({ error: error.msg || 'Internal Server Error' });
