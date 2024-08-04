@@ -4,7 +4,7 @@ const PORT = process.env.PORT || 3000;
 
 // Dummy data to simulate usage limits
 let apiKeyLimits = {
-    'furinafree': { usage: 0, limit: 100 }, // Contoh penggunaan untuk API key 'furinafree'
+    'furinafree': { usage: 0, limit: 1000 }, // Contoh penggunaan untuk API key 'furinafree'
     'indrafarida': { usage: 0, limit: -1 } // Tidak terbatas untuk 'indrafarida'
 };
 
@@ -20,12 +20,8 @@ function checkLimit(apiKey) {
             return reject({ status: 400, msg: 'Invalid API key' });
         }
 
-        // Periksa apakah limit penggunaan telah tercapai
+        // Periksa penggunaan tanpa menambahnya
         const limitReached = keyData.usage >= keyData.limit;
-
-        if (!limitReached) {
-            keyData.usage++; // Tambah penggunaan
-        }
 
         resolve({
             limitReached,
@@ -35,7 +31,7 @@ function checkLimit(apiKey) {
     });
 }
 
-// Fungsi untuk menambah penggunaan (jika diperlukan)
+// Fungsi untuk menambah penggunaan
 function addUsage(apiKey, amount) {
     return new Promise((resolve, reject) => {
         const keyData = apiKeyLimits[apiKey];
