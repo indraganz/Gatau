@@ -91,16 +91,24 @@ app.post('/api/nhentai/get', async (req, res) => {
     }
 });
 
-app.get('/api/checkLimit', async (req, res) => {
+app.get('/api/checklimit', (req, res) => {
     const apiKey = req.query.apiKey;
 
-    try {
-        const limitInfo = await checkLimit.checkLimit(apiKey);
-        res.json(limitInfo);
-    } catch (error) {
-        res.status(error.status || 500).json({ error: error.msg || 'Internal Server Error' });
+    // Misalkan Anda menyimpan data penggunaan dalam objek atau database
+    const usageData = {
+        'furinafree': { usageCount: 10, limit: 100 },
+        'indrafarida': { usageCount: 0, limit: Infinity }
+    };
+
+    // Cek apakah apiKey valid
+    if (usageData[apiKey]) {
+        const { usageCount, limit } = usageData[apiKey];
+        res.json({ success: true, usageCount: usageCount, limit: limit });
+    } else {
+        res.json({ success: false, message: 'Invalid API Key' });
     }
 });
+
 
 // Endpoint untuk menambah penggunaan (contoh)
 app.post('/api/addUsage', async (req, res) => {
