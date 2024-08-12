@@ -511,56 +511,42 @@ exports.ask = async (inputText) => {
     console.log(response.data.candidates[0].content.parts[0].text);
     return response.data.candidates[0].content.parts[0].text;
 }
-exports.askImage = async (inputText, inputImage) => {
-	try {
-		const buffer = await bufferlah(inputImage);
-		const resizedBuffer = await Resize(buffer);
+exports.askImage = async (inputTextt, inputImage) => {
+	const bufer = await bufferlah(inputImage)
+	const bup = await Resize(bufer)
+	const requestBody = {
+		"contents": [
 
-		const requestBody = {
-			"contents": [
-				{
-					"parts": [
-						{
-							"text": inputText
-						},
-						{
-							"inline_data": {
-								"mime_type": "image/jpeg",
-								"data": resizedBuffer.toString('base64')
-							}
+			{
+				"parts": [
+
+					{
+						"text": inputTextt
+					},
+
+					{
+						"inline_data": {
+							"mime_type": "image/jpeg",
+							"data": bup.toString('base64')
 						}
-					]
-				}
-			]
-		};
+					}
 
-		const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro-vision:generateContent?key=${googlekey}`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(requestBody)
-		});
+				]
+			}
 
-		const data = await response.json();
-		console.log('API Response:', data); // Log the response for debugging
-
-		// Check if candidates exist and have at least one element
-		if (!data.candidates || data.candidates.length === 0) {
-			throw new Error('Tidak ada kandidat dalam respons API');
-		}
-
-		// Check if the expected structure exists
-		if (!data.candidates[0].content || !data.candidates[0].content.parts || data.candidates[0].content.parts.length === 0) {
-			throw new Error('Struktur data respons tidak sesuai');
-		}
-
-		return data.candidates[0].content.parts[0].text;
-	} catch (error) {
-		console.error('Error in askImage:', error); // Log detailed error
-		throw new Error('Terjadi kesalahan saat memproses permintaan: ' + error.message);
-	}
-};
+		]
+	};
+	const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${googlekey}`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(requestBody)
+	});
+	const data = await response.json();
+	console.log(data);
+	return data.candidates[0].content.parts[0].text;
+}
 
 //fungsi black box
 exports.blackbox = async (content, web) => {
