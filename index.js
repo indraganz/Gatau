@@ -548,9 +548,9 @@ app.get('/api/vits_model', async (req, res) => {
 });
 
 //gdrive 
-app.post('/api/gdrive-dl', async (req, res) => {
+app.get('/api/gdrive-dl', async (req, res) => {
     try {
-        const message = req.body.url;
+        const message = req.query.url;
         if (!message) {
             return res.status(400)
                 .json({
