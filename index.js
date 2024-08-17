@@ -319,9 +319,9 @@ app.get('/api/github-search', async (req, res) => {
 });
 
 //ocr 
-app.post('/api/image-ocr', async (req, res) => {
+app.get('/api/image-ocr', async (req, res) => {
 	try {
-		const gambar = req.body.url		
+		const gambar = req.query.url		
 		if (!gambar) {
 			return res.status(400)
 				.json({
@@ -573,9 +573,9 @@ app.get('/api/gdrive-dl', async (req, res) => {
 });
 
 //Twitterdl
-app.post('/api/twitter-dl', async (req, res) => {
+app.get('/api/twitter-dl', async (req, res) => {
     try {
-        const message = req.body.url;
+        const message = req.query.url;
         if (!message) {
             return res.status(400)
                 .json({
@@ -622,9 +622,9 @@ app.get('/api/spotify-search', async (req, res) => {
             });
     }
 });
-app.post('/api/spotify-dl', async (req, res) => {
+app.get('/api/spotify-dl', async (req, res) => {
     try {
-        const message = req.body.url;
+        const message = req.query.url;
         if (!message) {
             return res.status(400)
                 .json({
@@ -671,9 +671,9 @@ app.get('/api/sfile-search', async (req, res) => {
             });
     }
 });
-app.post('/api/sfile-dl', async (req, res) => {
+app.get('/api/sfile-dl', async (req, res) => {
     try {
-        const message = req.body.url;
+        const message = req.query.url;
         if (!message) {
             return res.status(400)
                 .json({
@@ -722,9 +722,9 @@ app.post('/api/removeBackgroundV2', async (req, res) => {
 });
 
 //capcut
-app.post('/api/capcut-dl', async (req, res) => {
+app.get('/api/capcut-dl', async (req, res) => {
     try {
-        const message = req.body.url;
+        const message = req.query.url;
         if (!message) {
             return res.status(400)
                 .json({
@@ -832,9 +832,9 @@ app.post('/api/gpt-conversation', async (req, res) => {
 });
 
 //emi
-app.post('/api/emi-xl', async (req, res) => {
+app.get('/api/emi-xl', async (req, res) => {
     try {
-        const message = req.body.prompt;
+        const message = req.query.prompt;
         if (!message) {
             return res.status(400)
                 .json({
