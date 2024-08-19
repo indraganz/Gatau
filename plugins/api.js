@@ -146,54 +146,61 @@ async function fetchJson(url, options = {}) {
    }
 exports.igstalk = async (username) => {
     return new Promise(async (resolve, reject) => {
-        try {
-            const browser = await puppeteer.launch({ headless: true });
-            const page = await browser.newPage();
-            
-            // Set User-Agent to simulate a real browser
-            await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36');
-            
-            // Set additional headers to simulate real browsing behavior
-            await page.setExtraHTTPHeaders({
-                'Accept-Language': 'en-US,en;q=0.9',
-                'Referer': 'https://www.google.com/'
-            });
+        let retryCount = 0;
+        while (retryCount < 3) {
+            try {
+                const url = `https://dumpoir.com/v/${username}`;
+                const response = await axios.get(url, {
+                    headers: { 'User-Agent': 'Mozilla/5.0' }
+                });
 
-            // Navigate to the Instagram user page
-            await page.goto(`https://dumpoir.com/v/${username}`, { waitUntil: 'networkidle2' });
+                // Log HTML response for debugging
+                console.log(response.data);
 
-            // Wait for the element that should be present
-            await page.waitForSelector('div.avatar img');
+                const $ = cheerio.load(response.data);
 
-            // Extract data from the page
-            const userInfo = await page.evaluate(() => {
-                const profileImage = document.querySelector('div.avatar img')?.src || '-';
-                const username = document.querySelector('h1')?.innerText.trim() || '-';
-                const name = document.querySelector('h2')?.innerText.trim() || '-';
-                const bio = document.querySelector('div.text-sm.font-serif')?.innerText.trim() || '-';
-                const postsCount = parseInt(document.querySelector('.stat-value.text-primary')?.innerText.trim(), 10) || 0;
-                const followers = document.querySelector('div.stat-value.text-secondary')?.innerText.trim() || 0;
-                const following = parseInt(document.querySelector('div.stat-value:nth-child(3)')?.innerText.trim(), 10) || 0;
+                const profileImage = $('div.avatar img').attr('src');
+                console.log('Profile Image:', profileImage); // Debug
 
-                return {
+                const userName = $('h1').text().trim();
+                console.log('Username:', userName); // Debug
+
+                const name = $('h2').text().trim() || '-';
+                console.log('Name:', name); // Debug
+
+                const bio = $('div.text-sm.font-serif').text().trim() || '-';
+                console.log('Bio:', bio); // Debug
+
+                const postsCount = parseInt($('.stat-value.text-primary').text().trim(), 10) || 0;
+                console.log('Posts Count:', postsCount); // Debug
+
+                const followers = $('div.stat-value.text-secondary').eq(0).text().trim() || 0;
+                console.log('Followers:', followers); // Debug
+
+                const following = parseInt($('div.stat-value').eq(2).text().trim(), 10) || 0;
+                console.log('Following:', following); // Debug
+
+                const userInfo = {
                     profile_image: profileImage,
-                    username: username,
+                    username: userName,
                     name: name,
                     bio: bio,
                     followers: followers,
                     following: following,
                     posts_count: postsCount
                 };
-            });
 
-            await browser.close();
-            resolve(userInfo);
-        } catch (err) {
-            console.error('Error fetching Instagram user data:', err.message);
-            reject(new Error('Failed to fetch Instagram user data.'));
+                resolve(userInfo);
+                return; // Exit after successful resolution
+            } catch (err) {
+                console.error(`Attempt ${retryCount + 1} failed: ${err.message}`);
+                retryCount++;
+            }
         }
+        reject(new Error('Failed to fetch Instagram user data after 3 attempts.'));
     });
 };
+
 exports.snapsave = async (url) => {
   return new Promise(async (resolve) => {
     try {
