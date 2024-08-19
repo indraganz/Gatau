@@ -143,6 +143,33 @@ async function fetchJson(url, options = {}) {
 		.catch(err => reject({code: 503, status: false, result: err }))
 	})
    }
+exports.igstalk = async (profileLink, cnt) => {
+    const url = `https://dumpoir.com/v/${profileLink}`;
+    const response = await axios.get(url);
+    const $ = cheerio.load(response.data);
+
+    const profileImage = $('div.avatar img').attr('src');
+    const username = $('h1').text().trim();
+    const name = $('h2').text().trim() || '-'
+    const bio = $('div.text-sm.font-serif').text().trim() || '-'
+    const postsCount = parseInt($('.stat-value.text-primary').text().trim(), 10) || 0
+    const followers = $('div.stat-value.text-secondary').eq(0).text().trim() || 0
+    const following = parseInt($('div.stat-value').eq(2).text().trim()) || 0
+
+    return {
+        creator: 'Furina - Indraa Code',
+        status: true,
+        data: {
+            profile_image: profileImage,
+            username: username,
+            name: name,
+            bio: bio,
+            followers: followers,
+            following: following,
+            posts_count: postsCount
+        }
+    };
+}
 exports.snapsave = async (url) => {
   return new Promise(async (resolve) => {
     try {
