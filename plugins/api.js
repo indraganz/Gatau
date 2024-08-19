@@ -149,7 +149,13 @@ exports.igstalk = async (username) => {
         while (retryCount < 3) {
             try {
                 const url = `https://dumpoir.com/v/${username}`;
-                const response = await axios.get(url);
+                const response = await axios.get(url, {
+                    headers: { 'User-Agent': 'Mozilla/5.0' }
+                });
+
+                // Log HTML response for debugging
+                console.log(response.data);
+
                 const $ = cheerio.load(response.data);
 
                 const profileImage = $('div.avatar img').attr('src');
