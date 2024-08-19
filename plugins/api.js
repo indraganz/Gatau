@@ -144,62 +144,6 @@ async function fetchJson(url, options = {}) {
 		.catch(err => reject({code: 503, status: false, result: err }))
 	})
    }
-exports.igstalk = async (username) => {
-    return new Promise(async (resolve, reject) => {
-        let retryCount = 0;
-        while (retryCount < 3) {
-            try {
-                const url = `https://dumpoir.com/v/${username}`;
-                const response = await axios.get(url, {
-                    headers: { 'User-Agent': 'Mozilla/5.0' }
-                });
-
-                // Log HTML response for debugging
-                console.log(response.data);
-
-                const $ = cheerio.load(response.data);
-
-                const profileImage = $('div.avatar img').attr('src');
-                console.log('Profile Image:', profileImage); // Debug
-
-                const userName = $('h1').text().trim();
-                console.log('Username:', userName); // Debug
-
-                const name = $('h2').text().trim() || '-';
-                console.log('Name:', name); // Debug
-
-                const bio = $('div.text-sm.font-serif').text().trim() || '-';
-                console.log('Bio:', bio); // Debug
-
-                const postsCount = parseInt($('.stat-value.text-primary').text().trim(), 10) || 0;
-                console.log('Posts Count:', postsCount); // Debug
-
-                const followers = $('div.stat-value.text-secondary').eq(0).text().trim() || 0;
-                console.log('Followers:', followers); // Debug
-
-                const following = parseInt($('div.stat-value').eq(2).text().trim(), 10) || 0;
-                console.log('Following:', following); // Debug
-
-                const userInfo = {
-                    profile_image: profileImage,
-                    username: userName,
-                    name: name,
-                    bio: bio,
-                    followers: followers,
-                    following: following,
-                    posts_count: postsCount
-                };
-
-                resolve(userInfo);
-                return; // Exit after successful resolution
-            } catch (err) {
-                console.error(`Attempt ${retryCount + 1} failed: ${err.message}`);
-                retryCount++;
-            }
-        }
-        reject(new Error('Failed to fetch Instagram user data after 3 attempts.'));
-    });
-};
 
 exports.snapsave = async (url) => {
   return new Promise(async (resolve) => {
