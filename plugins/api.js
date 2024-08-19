@@ -145,45 +145,38 @@ async function fetchJson(url, options = {}) {
    }
 exports.igstalk = async (username) => {
     return new Promise(async (resolve, reject) => {
-        let retryCount = 0;
-        while (retryCount < 3) {
-            try {
-                const url = `https://dumpoir.com/v/${username}`;
-                const response = await axios.get(url, {
-                    headers: { 'User-Agent': 'Mozilla/5.0' }
-                });
+        try {
+            const browser = await puppeteer.launch();
+            const page = await browser.newPage();
+            await page.goto(`https://dumpoir.com/v/${username}`, {
+                waitUntil: 'networkidle2'
+            });
 
-                // Log HTML response for debugging
-                console.log(response.data);
+            const userInfo = await page.evaluate(() => {
+                const profileImage = document.querySelector('div.avatar img')?.src || '-';
+                const username = document.querySelector('h1')?.innerText.trim() || '-';
+                const name = document.querySelector('h2')?.innerText.trim() || '-';
+                const bio = document.querySelector('div.text-sm.font-serif')?.innerText.trim() || '-';
+                const postsCount = parseInt(document.querySelector('.stat-value.text-primary')?.innerText.trim(), 10) || 0;
+                const followers = document.querySelector('div.stat-value.text-secondary')?.innerText.trim() || 0;
+                const following = parseInt(document.querySelector('div.stat-value:nth-child(3)')?.innerText.trim(), 10) || 0;
 
-                const $ = cheerio.load(response.data);
-
-                const profileImage = $('div.avatar img').attr('src');
-                const userName = $('h1').text().trim();
-                const name = $('h2').text().trim() || '-';
-                const bio = $('div.text-sm.font-serif').text().trim() || '-';
-                const postsCount = parseInt($('.stat-value.text-primary').text().trim(), 10) || 0;
-                const followers = $('div.stat-value.text-secondary').eq(0).text().trim() || 0;
-                const following = parseInt($('div.stat-value').eq(2).text().trim(), 10) || 0;
-
-                const userInfo = {
+                return {
                     profile_image: profileImage,
-                    username: userName,
+                    username: username,
                     name: name,
                     bio: bio,
                     followers: followers,
                     following: following,
                     posts_count: postsCount
                 };
+            });
 
-                resolve(userInfo);
-                return; // Exit after successful resolution
-            } catch (err) {
-                console.error(`Attempt ${retryCount + 1} failed: ${err.message}`);
-                retryCount++;
-            }
+            await browser.close();
+            resolve(userInfo);
+        } catch (err) {
+            reject(new Error('Failed to fetch Instagram user data.'));
         }
-        reject(new Error('Failed to fetch Instagram user data after 3 attempts.'));
     });
 };
 
