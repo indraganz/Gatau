@@ -26,7 +26,7 @@ const { A_genImage, A_style, A_sampler, A_models } = require('./plugins/text2ima
 const { otakudesuDetail, otakudesuLatest, otakudesuSearch } = require('./plugins/otakudesu.js');
 const { rembg, Cartoon } = require('./plugins/rmbg.js');
 const { sdf, cosmix, trained, animagen, mixtral, emi, wish } = require('./plugins/imagen.js');
-const { xnxxsearch, xnxxdl, wallpaper, pin, snapsave, ttstalk, chatbot, mediafireDl, pindl, llama2_ai, ttd, gpt3, gpt4, pixiv, pixivr18, vox, spe, askImage, ask, blackbox, gptRP, toAnime, openai } = require('./plugins/api.js');
+const { xnxxsearch, xnxxdl, wallpaper, pin, snapsave, ttstalk, chatbot, mediafireDl, pindl, llama2_ai, ttd, gpt3, gpt4, pixiv, pixivr18, vox, spe, askImage, ask, blackbox, gptRP, toAnime, openai, igstalk } = require('./plugins/api.js');
 const { translate } = require('bing-translate-api');
 const { createImage, getList } = require("./plugins/animeAvatars.js")
 const { vits_inference, vits_model, vits_emotion } = require('./plugins/rvc-vits.js')
@@ -132,6 +132,28 @@ app.post('/api/addUsage', async (req, res) => {
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
+});
+
+app.get('/api/igstalk', async (req, res) => {
+    try {
+        const username = req.query.username;
+        if (!username) {
+            return res.status(400).json({
+                error: 'Parameter "username" tidak ditemukan'
+            });
+        }
+
+        const result = await igstalk(username);
+        res.status(200).json({
+            status: 200,
+            creator: 'Furina - Indraa Code',
+            result: result
+        });
+    } catch (error) {
+        res.status(500).json({
+            error: error.message
+        });
+    }
 });
 
 app.get('/api/nhentai/search', async (req, res) => {
