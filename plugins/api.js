@@ -1,4 +1,5 @@
 const axios = require('axios')
+const puppeteer = require('puppeteer');
 const cheerio = require('cheerio')
 const fetch = require('node-fetch');
 const got = require('got')
@@ -146,12 +147,25 @@ async function fetchJson(url, options = {}) {
 exports.igstalk = async (username) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const browser = await puppeteer.launch();
+            const browser = await puppeteer.launch({ headless: true });
             const page = await browser.newPage();
-            await page.goto(`https://dumpoir.com/v/${username}`, {
-                waitUntil: 'networkidle2'
+            
+            // Set User-Agent to simulate a real browser
+            await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36');
+            
+            // Set additional headers to simulate real browsing behavior
+            await page.setExtraHTTPHeaders({
+                'Accept-Language': 'en-US,en;q=0.9',
+                'Referer': 'https://www.google.com/'
             });
 
+            // Navigate to the Instagram user page
+            await page.goto(`https://dumpoir.com/v/${username}`, { waitUntil: 'networkidle2' });
+
+            // Wait for the element that should be present
+            await page.waitForSelector('div.avatar img');
+
+            // Extract data from the page
             const userInfo = await page.evaluate(() => {
                 const profileImage = document.querySelector('div.avatar img')?.src || '-';
                 const username = document.querySelector('h1')?.innerText.trim() || '-';
@@ -175,11 +189,11 @@ exports.igstalk = async (username) => {
             await browser.close();
             resolve(userInfo);
         } catch (err) {
+            console.error('Error fetching Instagram user data:', err.message);
             reject(new Error('Failed to fetch Instagram user data.'));
         }
     });
 };
-
 exports.snapsave = async (url) => {
   return new Promise(async (resolve) => {
     try {
