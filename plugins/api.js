@@ -144,7 +144,7 @@ async function fetchJson(url, options = {}) {
 	})
    }
 exports.igstalk = async (username) => {
-    return new Promise(async (resolve) => {
+    return new Promise(async (resolve, reject) => {
         let retryCount = 0;
         while (retryCount < 3) {
             try {
@@ -153,24 +153,34 @@ exports.igstalk = async (username) => {
                 const $ = cheerio.load(response.data);
 
                 const profileImage = $('div.avatar img').attr('src');
-                const username = $('h1').text().trim();
+                const userName = $('h1').text().trim();
                 const name = $('h2').text().trim() || '-';
                 const bio = $('div.text-sm.font-serif').text().trim() || '-';
                 const postsCount = parseInt($('.stat-value.text-primary').text().trim(), 10) || 0;
                 const followers = $('div.stat-value.text-secondary').eq(0).text().trim() || 0;
-                const following = parseInt($('div.stat-value').eq(2).text().trim()) || 0;
+                const following = parseInt($('div.stat-value').eq(2).text().trim(), 10) || 0;
 
                 const userInfo = {
                     profile_image: profileImage,
-                    username: username,
+                    username: userName,
                     name: name,
                     bio: bio,
                     followers: followers,
                     following: following,
                     posts_count: postsCount
+                };
+
+                resolve(userInfo);
+                return; // Exit after successful resolution
+            } catch (err) {
+                console.error(`Attempt ${retryCount + 1} failed: ${err.message}`);
+                retryCount++;
+            }
         }
-    };
-}
+        reject(new Error('Failed to fetch Instagram user data after 3 attempts.'));
+    });
+};
+
 exports.snapsave = async (url) => {
   return new Promise(async (resolve) => {
     try {
