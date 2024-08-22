@@ -134,31 +134,6 @@ app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
 
-app.get('/api/igstalk', async (req, res) => {
-    try {
-        const username = req.query.username;
-        if (!username) {
-            return res.status(400)
-                .json({
-                    error: 'Parameter "username" tidak ditemukan'
-                });
-        }
-        const result = await igstalk(username);
-        res.status(200)
-            .json({
-                status: 200,
-                creator: global.creator,
-                result: result,
-            });
-    } catch (error) {
-        res.status(500)
-            .json({
-                error: error.message
-            });
-    }
-});
-
-
 app.get('/api/nhentai/search', async (req, res) => {
     try {
         const query = req.query.query
