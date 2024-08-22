@@ -153,35 +153,6 @@ app.get('/api/nhentai/search', async (req, res) => {
             });
     }
 });
-//asupan
-app.get('/api/asupan', async (req, res) => {
-    try {
-        const message = req.query.query;
-        if (!message) {
-            return res.status(400)
-                .json({
-                    error: 'Parameter "query" tidak ditemukan'
-                });
-        }
-        const data = await asupan(message);
-        res.status(200)
-            .json({
-                status: 200,
-                creator: global.creator,
-                result: {
-                    output_text: data
-                },
-                models: {
-                    name: "Mixtral-8x7B-Instruct"
-                },
-            });
-    } catch (error) {
-        res.status(500)
-            .json({
-                error: error.message
-            });
-    }
-});
 //freepik
 app.get('/api/jp.freepik', async (req, res) => {
     try {
