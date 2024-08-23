@@ -20,6 +20,7 @@ const twitterdl = require('./plugins/Twitter-Downloader.js')
 const { remini } = require('./plugins/remini.js')
 const Nekopoi = require('./plugins/nekopoi.js')
 const { runtime } = require('./plugins/runtime'); 
+const { igstalk } = require('./plugins/igstalk');
 const { getIpInfo } = require('./plugins/ipinfo');
 const { freepik } = require('./plugins/freepik.js')
 const { nhentai, nhentaidl } = require('./plugins/nhentai.js')
@@ -165,6 +166,29 @@ app.get('/api/ipinfo', async (req, res) => {
         res.status(200).json({
             status: 200,
             ipInfo,
+        });
+    } catch (error) {
+        res.status(500).json({
+            error: error.message,
+        });
+    }
+});
+
+app.get('/api/igstalk', async (req, res) => {
+    const username = req.query.username;
+
+    if (!username) {
+        return res.status(400).json({
+            status: 400,
+            error: 'Instagram username is required',
+        });
+    }
+
+    try {
+        const profileData = await igstalk(username);
+        res.status(200).json({
+            status: 200,
+            profileData,
         });
     } catch (error) {
         res.status(500).json({
