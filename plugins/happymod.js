@@ -20,7 +20,9 @@ const happymod = async (query) => {
             });
         });
 
-        return results;
+        return {
+            creator: global.creator;
+            results
     } catch (error) {
         throw new Error(`Failed to fetch data: ${error.message}`);
     }
