@@ -22,6 +22,7 @@ const Nekopoi = require('./plugins/nekopoi.js')
 const { runtime } = require('./plugins/runtime'); 
 const { igstalk } = require('./plugins/igstalk');
 const { happymod } = require('./plugins/happymod');
+const { downloadFromYouTube } = require('./plugins/youtube');
 const { getIpInfo } = require('./plugins/ipinfo');
 const { freepik } = require('./plugins/freepik.js')
 const { nhentai, nhentaidl } = require('./plugins/nhentai.js')
@@ -231,6 +232,20 @@ app.get('/api/igstalk', async (req, res) => {
         res.status(500).json({
             error: error.message,
         });
+    }
+});
+
+app.get('/api/youtube', async (req, res) => {
+    const url = req.query.url;
+    if (!url) {
+        return res.status(400).json({ error: 'Query parameter "url" is required' });
+    }
+
+    try {
+        const result = await downloadFromYouTube(url);
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
 });
 
