@@ -1,26 +1,24 @@
-const axios = require('axios');
-const cheerio = require('cheerio');
+const puppeteer = require('puppeteer');
 
 const igstalk = async (username) => {
     try {
-        const url = `https://dumpoir.com/v/${username}`;
-        const response = await axios.get(url, {
-            headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-            }
-        });
-        const html = response.data;
-        const $ = cheerio.load(html);
+        const browser = await puppeteer.launch();
+        const page = await browser.newPage();
+        await page.goto(`https://dumpoir.com/v/${username}`, { waitUntil: 'networkidle2' });
 
-        const profileData = {
-            username: $('.profile-header__user-name').text().trim(),
-            fullName: $('.profile-header__full-name').text().trim(),
-            bio: $('.profile-header__bio').text().trim(),
-            posts: $('.profile-stats__item--posts .profile-stats__number').text().trim(),
-            followers: $('.profile-stats__item--followers .profile-stats__number').text().trim(),
-            following: $('.profile-stats__item--following .profile-stats__number').text().trim(),
-            profileImage: $('.profile-header__avatar img').attr('src'),
-        };
+        const profileData = await page.evaluate(() => {
+            return {
+                username: document.querySelector('.profile-header__user-name')?.textContent.trim() || '',
+                fullName: document.querySelector('.profile-header__full-name')?.textContent.trim() || '',
+                bio: document.querySelector('.profile-header__bio')?.textContent.trim() || '',
+                posts: document.querySelector('.profile-stats__item--posts .profile-stats__number')?.textContent.trim() || '',
+                followers: document.querySelector('.profile-stats__item--followers .profile-stats__number')?.textContent.trim() || '',
+                following: document.querySelector('.profile-stats__item--following .profile-stats__number')?.textContent.trim() || '',
+                profileImage: document.querySelector('.profile-header__avatar img')?.src || ''
+            };
+        });
+
+        await browser.close();
 
         if (!profileData.username) {
             throw new Error('Could not find user profile');
