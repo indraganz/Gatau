@@ -21,7 +21,7 @@ const { remini } = require('./plugins/remini.js')
 const Nekopoi = require('./plugins/nekopoi.js')
 const { runtime } = require('./plugins/runtime'); 
 const { igstalk } = require('./plugins/igstalk');
-const { searchHappyMod } = require('./plugins/happymod');
+const { happyMod } = require('./plugins/happymod');
 const { getIpInfo } = require('./plugins/ipinfo');
 const { freepik } = require('./plugins/freepik.js')
 const { nhentai, nhentaidl } = require('./plugins/nhentai.js')
@@ -197,19 +197,20 @@ app.get('/api/ipinfo', async (req, res) => {
     }
 });
 
-app.get('/api/happymod', async (req, res) => {
+app.get('/api/search', async (req, res) => {
     const query = req.query.q;
     if (!query) {
         return res.status(400).json({ error: 'Query parameter "q" is required' });
     }
 
     try {
-        const results = await searchHappyMod(query);
+        const results = await happymod(query);
         res.json({ success: true, results });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
+
 app.get('/api/igstalk', async (req, res) => {
     const username = req.query.username;
 
