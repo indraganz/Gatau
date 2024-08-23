@@ -11,4 +11,4 @@ const getElapsedTime = (startTime) => {
     return formatDuration(elapsedTime);
 };
 
-module.exports = { getElapsedTime };
+exports.getElapsedTime = getElapsedTime;
