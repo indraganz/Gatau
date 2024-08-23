@@ -21,6 +21,7 @@ const { remini } = require('./plugins/remini.js')
 const Nekopoi = require('./plugins/nekopoi.js')
 const { runtime } = require('./plugins/runtime'); 
 const { igstalk } = require('./plugins/igstalk');
+const { getLyrics } = require('./plugins/lyrics')
 const { getIpInfo } = require('./plugins/ipinfo');
 const { freepik } = require('./plugins/freepik.js')
 const { nhentai, nhentaidl } = require('./plugins/nhentai.js')
@@ -193,6 +194,21 @@ app.get('/api/ipinfo', async (req, res) => {
         res.status(500).json({
             error: error.message,
         });
+    }
+});
+
+app.get('/api/lyrics', async (req, res) => {
+    const text = req.query.text;
+
+    if (!text) {
+        return res.status(400).json({ error: 'Text parameter is required' });
+    }
+
+    try {
+        const lyrics = await getLyrics(text);
+        res.json({ success: true, lyrics });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
 });
 
