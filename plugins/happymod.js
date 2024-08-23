@@ -1,6 +1,7 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 
+// Fungsi untuk melakukan pencarian di HappyMod
 const happymod = async (query) => {
     try {
         const response = await axios.get(`https://www.happymod.com/search.html?q=${encodeURIComponent(query)}`);
@@ -21,9 +22,9 @@ const happymod = async (query) => {
         });
 
         return {
-            creator: global.creator;
+            creator: global.creator, // Menggunakan nilai dari global.creator
             results
-    }
+        };
     } catch (error) {
         throw new Error(`Failed to fetch data: ${error.message}`);
     }
