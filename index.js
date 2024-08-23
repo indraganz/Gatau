@@ -40,6 +40,26 @@ const PORT = process.env.PORT || 3000
 
 global.creator = 'Furina - Indraa Code'
 
+const validApiKeys = new Set(['furinafree', 'indrafarida']); 
+
+/** ==== { KONFIGURASI APLIKASI } ==== **/
+app.enable("trust proxy")
+app.set("json spaces", 2)
+app.use(cors())
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
+
+// Middleware untuk memeriksa API key
+app.use((req, res, next) => {
+    const apiKey = req.query.apiKey;
+
+    if (!validApiKeys.has(apiKey)) {
+        return res.status(403).json({ error: 'Invalid API key' });
+    }
+
+    next();
+});
+
 /** ==== { KONFIGURASI APLIKASI } ==== **/
 app.enable("trust proxy")
 app.set("json spaces", 2)
