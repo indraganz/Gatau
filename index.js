@@ -197,17 +197,17 @@ app.get('/api/ipinfo', async (req, res) => {
     }
 });
 
-app.get('/api/search', async (req, res) => {
-    const query = req.query.q;
+app.get('/api/happymod', async (req, res) => {
+    const query = req.query.q; 
     if (!query) {
         return res.status(400).json({ error: 'Query parameter "q" is required' });
     }
 
     try {
-        const results = await happymod(query);
-        res.json({ success: true, results });
+        const results = await happymod(query); 
+        res.json({ success: true, results }); 
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: error.message }); 
     }
 });
 
