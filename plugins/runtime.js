@@ -1,7 +1,9 @@
 const axios = require('axios');
 const qs = require('qs');
 
-const startTime = Date.now();
+// Set startTime to 30 days ago
+const thirtyDaysInMilliseconds = 30 * 24 * 60 * 60 * 1000; // 30 days in milliseconds
+const startTime = Date.now() - thirtyDaysInMilliseconds;
 
 const formatDuration = (milliseconds) => {
     const seconds = Math.floor(milliseconds / 1000);
