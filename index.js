@@ -59,19 +59,18 @@ app.use(bodyParser.json())
 // Middleware untuk memeriksa API key
 const apiKeyMiddleware = (req, res, next) => {
     const apiKey = req.query.apiKey || req.body.apiKey;
-    
+
     if (!apiKeys[apiKey]) {
         return res.status(403).json({ error: 'Invalid API key' });
     }
 
     const { usageCount, limit } = apiKeys[apiKey];
 
-    // Check if usage limit is exceeded
     if (usageCount >= limit) {
         return res.status(403).json({ error: 'Usage limit exceeded' });
     }
+    apiKeys[apiKey].usageCount += 1;
 
-    // Pass usage data to request object for later use
     req.apiKeyData = apiKeys[apiKey];
     next();
 };
@@ -127,19 +126,12 @@ app.post('/api/nhentai/get', async (req, res) => {
 app.get('/api/checklimit', (req, res) => {
     const apiKey = req.query.apiKey;
 
-    // Misalkan Anda menyimpan data penggunaan dalam objek atau database
-    const usageData = {
-        'furinafree': { usageCount: 10, limit: 100 },
-        'indrafarida': { usageCount: 0, limit: Infinity }
-    };
-
-    // Cek apakah apiKey valid
-    if (usageData[apiKey]) {
-        const { usageCount, limit } = usageData[apiKey];
-        res.json({ success: true, usageCount: usageCount, limit: limit });
-    } else {
-        res.json({ success: false, message: 'Invalid API Key' });
+    if (!apiKeys[apiKey]) {
+        return res.json({ success: false, message: 'Invalid API Key' });
     }
+
+    const { usageCount, limit } = apiKeys[apiKey];
+    res.json({ success: true, usageCount: usageCount, limit: limit });
 });
 
 
