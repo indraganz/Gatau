@@ -11,6 +11,7 @@ const getLyrics = async (text) => {
     if (data.lyrics && data.lyrics.result) {
         data.lyrics.creator = global.creator || 'Furina - Indraa Code'; 
     }
+
     return data;
 };
 
