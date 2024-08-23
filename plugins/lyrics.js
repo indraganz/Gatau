@@ -8,8 +8,9 @@ const getLyrics = async (text) => {
     }
     const data = await response.json();
     
+    // Menghapus field creator dari response
     if (data.lyrics && data.lyrics.result) {
-        data.lyrics.creator = global.creator || 'Furina - Indraa Code'; 
+        delete data.lyrics.creator; 
     }
 
     return data;
