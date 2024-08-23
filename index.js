@@ -19,6 +19,7 @@ const GDriveDl = require('./plugins/Drive-Downloader.js')
 const twitterdl = require('./plugins/Twitter-Downloader.js')
 const { remini } = require('./plugins/remini.js')
 const Nekopoi = require('./plugins/nekopoi.js')
+const { getElapsedTime } = require('./plugins/runtime'); // Import runtime module
 const { freepik } = require('./plugins/freepik.js')
 const { nhentai, nhentaidl } = require('./plugins/nhentai.js')
 const { hentaivox_s, hentaivox_dl } = require('./plugins/hentaifox.js')
@@ -127,6 +128,23 @@ app.post('/api/addUsage', async (req, res) => {
         });
     } catch (error) {
         res.status(error.status || 500).json({ error: error.msg || 'Internal Server Error' });
+    }
+});
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
+
+app.post('/api/runtime', (req, res) => {
+    try {
+        res.status(200).json({
+            status: 200,
+            runtime: getElapsedTime()
+        });
+    } catch (error) {
+        res.status(500).json({
+            error: error.message
+        });
     }
 });
 
