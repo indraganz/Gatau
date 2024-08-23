@@ -1,4 +1,4 @@
-                            <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -68,6 +68,20 @@
                     { name: "Downloader" }
                 ],
                 paths: {
+                      "/Gemini-vision": {
+                        get: {
+                            summary: "",
+                            deprecated: false,
+                            description: "",
+                            tags: ["Ai"],
+                            parameters: [
+                                { name: "text", in: "query", description: "Enter text", required: false, type: "string" },
+                                { name: "url", in: "query", description: "Enter url", required: false, type: "string" },
+                                { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
+                            ],
+                            responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
+                        }
+                    },
                     "/Gemini": {
                         get: {
                             summary: "",
@@ -75,6 +89,30 @@
                             tags: ["Ai"],
                             parameters: [
                                 { name: "text", in: "query", description: "Enter text for Instance 1", required: false, type: "string" },
+                                { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
+                            ],
+                            responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
+                        }
+                    },
+                       "/asupan": {
+                        get: {
+                            summary: "",
+                            description: "Description for Gemini Instance",
+                            tags: ["Ai"],
+                            parameters: [
+                                { name: "query", in: "query", description: "Enter text for Instance 1", required: false, type: "string" },
+                                { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
+                            ],
+                            responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
+                        }
+                    },
+                    "/emi-xl": {
+                        get: {
+                            summary: "",
+                            description: "Description for Gemini Instance",
+                            tags: ["Ai"],
+                            parameters: [
+                                { name: "prompt", in: "query", description: "Enter text for Instance 1", required: false, type: "string" },
                                 { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
                             ],
                             responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
@@ -92,13 +130,13 @@
                             responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
                         }
                     },
-                    "/instagram_stalk": {
+                    "/igstalk": {
                         get: {
                             summary: "",
                             description: "Description for Instagram-stalk",
                             tags: ["Stalker"],
                             parameters: [
-                                { name: "user", in: "query", description: "Enter text for Instance", required: false, type: "string" },
+                                { name: "username", in: "query", description: "Enter text for Instance", required: false, type: "string" },
                                 { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
                             ],
                             responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
@@ -116,6 +154,19 @@
                             responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
                         }
                     },
+                    "/gpt-translate": {
+                        get: {
+                            summary: "",
+                            description: "Description for Translate",
+                            tags: ["Ai"],
+                            parameters: [
+                                { name: "text", in: "query", description: "Enter text for Instance", required: false, type: "string" },
+                                { name: "target", in: "query", description: "Enter Target `id en`", required: false, type: "string" },
+                                { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
+                            ],
+                            responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
+                        }
+                    },
                     "/otakudesu_search": {
                         get: {
                             summary: "",
@@ -123,6 +174,29 @@
                             tags: ["Searching"],
                             parameters: [
                                 { name: "text", in: "query", description: "Enter text for Instance", required: false, type: "string" },
+                                { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
+                            ],
+                            responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
+                        }
+                    },
+                          "/runtime": {
+                        post: {
+                            summary: "",
+                            description: "Description for otakudesu_search",
+                            tags: ["Server"],
+                            parameters: [
+                                { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
+                            ],
+                            responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
+                        }
+                    },
+                          "/pinterest": {
+                        get: {
+                            summary: "",
+                            description: "Description for Searching Pinterest",
+                            tags: ["Searching"],
+                            parameters: [
+                                { name: "query", in: "query", description: "Enter text for Instance", required: false, type: "string" },
                                 { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
                             ],
                             responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
@@ -146,6 +220,18 @@
                             tags: ["Ai"],
                             parameters: [
                                 { name: "text", in: "query", description: "Enter text for Instance", required: false, type: "string" },
+                                { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
+                            ],
+                            responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
+                        }
+                    },
+                                        "/dalle-mini": {
+                        get: {
+                            summary: "",
+                            description: "Description for Dalle Mini",
+                            tags: ["Ai"],
+                            parameters: [
+                                { name: "prompt", in: "query", description: "Enter text for Instance", required: false, type: "string" },
                                 { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
                             ],
                             responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
@@ -189,6 +275,18 @@
                             responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
                         }
                     },
+                       "/sfile-search": {
+                        get: {
+                            summary: "",
+                            description: "Description for Search Sfile",
+                            tags: ["Searching"],
+                            parameters: [
+                                { name: "query", in: "query", description: "Enter text for Instance", required: false, type: "string" },
+                                { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
+                            ],
+                            responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
+                        }
+                    },
                     "/blackbox": {
                         get: {
                             summary: "",
@@ -219,6 +317,78 @@
                         get: {
                             summary: "",
                             description: "Description for Downloader Tiktok",
+                            tags: ["Downloader"],
+                            parameters: [
+                                { name: "url", in: "query", description: "Enter text for Instance", required: false, type: "string" },
+                                { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
+                            ],
+                            responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
+                        }
+                    },
+                  "/twitter-dl": {
+                        get: {
+                            summary: "",
+                            description: "Description for Downloader Twitter",
+                            tags: ["Downloader"],
+                            parameters: [
+                                { name: "url", in: "query", description: "Enter text for Instance", required: false, type: "string" },
+                                { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
+                            ],
+                            responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
+                        }
+                    },
+                                      "/Facebook": {
+                        get: {
+                            summary: "",
+                            description: "Description for Downloader Tiktok",
+                            tags: ["Downloader"],
+                            parameters: [
+                                { name: "url", in: "query", description: "Enter text for Instance", required: false, type: "string" },
+                                { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
+                            ],
+                            responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
+                        }
+                    },
+                         "/Instagram": {
+                        get: {
+                            summary: "",
+                            description: "Description for Downloader Instagram",
+                            tags: ["Downloader"],
+                            parameters: [
+                                { name: "url", in: "query", description: "Enter text for Instance", required: false, type: "string" },
+                                { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
+                            ],
+                            responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
+                        }
+                    },
+                    "/gdrive-dl": {
+                        get: {
+                            summary: "",
+                            description: "Description for Downloader Google Drive",
+                            tags: ["Downloader"],
+                            parameters: [
+                                { name: "url", in: "query", description: "Enter text for Instance", required: false, type: "string" },
+                                { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
+                            ],
+                            responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
+                        }
+                    },
+                        "/capcut-dl": {
+                        get: {
+                            summary: "",
+                            description: "Description for Downloader Google Drive",
+                            tags: ["Downloader"],
+                            parameters: [
+                                { name: "url", in: "query", description: "Enter text for Instance", required: false, type: "string" },
+                                { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
+                            ],
+                            responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
+                        }
+                    },
+                     "/mediafire": {
+                        get: {
+                            summary: "",
+                            description: "Description for Downloader Mediafire",
                             tags: ["Downloader"],
                             parameters: [
                                 { name: "url", in: "query", description: "Enter text for Instance", required: false, type: "string" },
