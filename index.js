@@ -42,9 +42,9 @@ const PORT = process.env.PORT || 3000
 global.creator = 'Furina - Indraa Code'
 
 const apiKeys = {
-    'indrafarida': { usageCount: 0, limit: 10000 },
-    'furinafree': { usageCount: 0, limit: 1000 },
-    'IndraGanz': { usageCount: 0, limit: 5000 },
+    'indrafarida': { usageCount: 0, limit: 100000 },
+    'furinafree': { usageCount: 0, limit: 10000 },
+    'IndraGanz': { usageCount: 0, limit: 50000 },
     'Salma': { usageCount: 0, limit: 2000 },
     'Farida': { usageCount: 0, limit: 500 },
 };
