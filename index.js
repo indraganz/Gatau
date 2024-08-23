@@ -49,8 +49,9 @@ app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
+/** ==== { MIDDLEWARE } ==== **/
 // Middleware untuk memeriksa API key
-app.use((req, res, next) => {
+const apiKeyMiddleware = (req, res, next) => {
     const apiKey = req.query.apiKey;
 
     if (!validApiKeys.has(apiKey)) {
@@ -58,14 +59,7 @@ app.use((req, res, next) => {
     }
 
     next();
-});
-
-/** ==== { KONFIGURASI APLIKASI } ==== **/
-app.enable("trust proxy")
-app.set("json spaces", 2)
-app.use(cors())
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json())
+};
 
 /** ==== { ROUTES } ==== **/
 app.get('/', (req, res) => {
