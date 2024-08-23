@@ -237,18 +237,18 @@ app.get('/api/igstalk', async (req, res) => {
 
 app.get('/api/youtube', async (req, res) => {
     const url = req.query.url;
+    const format = req.query.format || 'mp4'; 
     if (!url) {
         return res.status(400).json({ error: 'Query parameter "url" is required' });
     }
 
     try {
-        const result = await downloadFromYouTube(url);
+        const result = await downloadFromYouTube(url, format);
         res.json(result);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
-
 app.get('/api/nhentai/search', async (req, res) => {
     try {
         const query = req.query.query
