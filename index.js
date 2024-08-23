@@ -19,7 +19,8 @@ const GDriveDl = require('./plugins/Drive-Downloader.js')
 const twitterdl = require('./plugins/Twitter-Downloader.js')
 const { remini } = require('./plugins/remini.js')
 const Nekopoi = require('./plugins/nekopoi.js')
-const { runtime } = require('./plugins/runtime'); // Import runtime module
+const { runtime } = require('./plugins/runtime'); 
+const { getIpInfo } = require('./plugins/ipinfo');
 const { freepik } = require('./plugins/freepik.js')
 const { nhentai, nhentaidl } = require('./plugins/nhentai.js')
 const { hentaivox_s, hentaivox_dl } = require('./plugins/hentaifox.js')
@@ -149,6 +150,28 @@ app.post('/api/runtime', async (req, res) => {
     }
 });
 
+app.get('/api/ipinfo', async (req, res) => {
+    const ip = req.query.ip;
+
+    if (!ip) {
+        return res.status(400).json({
+            status: 400,
+            error: 'IP address is required',
+        });
+    }
+
+    try {
+        const ipInfo = await getIpInfo(ip);
+        res.status(200).json({
+            status: 200,
+            ipInfo,
+        });
+    } catch (error) {
+        res.status(500).json({
+            error: error.message,
+        });
+    }
+});
 
 app.get('/api/nhentai/search', async (req, res) => {
     try {
