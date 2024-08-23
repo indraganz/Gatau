@@ -1,6 +1,5 @@
 const fetch = require('node-fetch');
 
-// Fungsi untuk mendapatkan lirik dari API
 const getLyrics = async (text) => {
     const url = `https://widipe.com/lirik?text=${encodeURIComponent(text)}`;
     const response = await fetch(url);
@@ -8,6 +7,10 @@ const getLyrics = async (text) => {
         throw new Error('Failed to fetch lyrics');
     }
     const data = await response.json();
+    
+    if (data.lyrics && data.lyrics.result) {
+        data.lyrics.creator = global.creator || 'Furina - Indraa Code'; 
+    }
     return data;
 };
 
