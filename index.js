@@ -198,7 +198,7 @@ app.get('/api/ipinfo', async (req, res) => {
 });
 
 app.get('/api/happymod', async (req, res) => {
-    const query = req.query.q; 
+    const query = req.query.query; 
     if (!query) {
         return res.status(400).json({ error: 'Query parameter "q" is required' });
     }
