@@ -40,7 +40,13 @@ const PORT = process.env.PORT || 3000
 
 global.creator = 'Furina - Indraa Code'
 
-const validApiKeys = new Set(['furinafree', 'indrafarida']); 
+const apiKeys = {
+    'indrafarida': { usageCount: 0, limit: 10000 },
+    'furinafree': { usageCount: 0, limit: 1000 },
+    'IndraGanz': { usageCount: 0, limit: 5000 },
+    'Salma': { usageCount: 0, limit: 2000 },
+    'Farida': { usageCount: 0, limit: 500 },
+};
 
 /** ==== { KONFIGURASI APLIKASI } ==== **/
 app.enable("trust proxy")
@@ -52,12 +58,21 @@ app.use(bodyParser.json())
 /** ==== { MIDDLEWARE } ==== **/
 // Middleware untuk memeriksa API key
 const apiKeyMiddleware = (req, res, next) => {
-    const apiKey = req.query.apiKey;
-
-    if (!validApiKeys.has(apiKey)) {
+    const apiKey = req.query.apiKey || req.body.apiKey;
+    
+    if (!apiKeys[apiKey]) {
         return res.status(403).json({ error: 'Invalid API key' });
     }
 
+    const { usageCount, limit } = apiKeys[apiKey];
+
+    // Check if usage limit is exceeded
+    if (usageCount >= limit) {
+        return res.status(403).json({ error: 'Usage limit exceeded' });
+    }
+
+    // Pass usage data to request object for later use
+    req.apiKeyData = apiKeys[apiKey];
     next();
 };
 app.use('/api', apiKeyMiddleware);
