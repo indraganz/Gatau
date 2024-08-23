@@ -9,7 +9,7 @@ const getLyrics = async (text) => {
     const data = await response.json();
     
     // Menghapus field creator dari response
-    if (data.lyrics && data.lyrics.result) {
+    if (data.lyrics.result) {
         delete data.lyrics.creator; 
     }
 
