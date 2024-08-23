@@ -182,9 +182,32 @@
                           "/runtime": {
                         post: {
                             summary: "",
-                            description: "Description for otakudesu_search",
+                            description: "Description for Runtime",
                             tags: ["Server"],
                             parameters: [
+                                { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
+                            ],
+                            responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
+                        }
+                    },
+                           "/checklimit": {
+                        get: {
+                            summary: "",
+                            description: "Description for ChekLimit Apikey",
+                            tags: ["Server"],
+                            parameters: [
+                                { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
+                            ],
+                            responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
+                        }
+                    },
+                        "/ipinfo": {
+                        get: {
+                            summary: "",
+                            description: "Description for ip info",
+                            tags: ["Server"],
+                            parameters: [
+                              { name: "ip", in: "query", description: "Enter text for Instance", required: false, type: "string" },
                                 { name: "apiKey", in: "query", description: "API Key", required: true, type: "string" }
                             ],
                             responses: { "200": { description: "Successful response", schema: { type: "object", properties: {} } } }
