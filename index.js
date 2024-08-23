@@ -60,6 +60,7 @@ const apiKeyMiddleware = (req, res, next) => {
 
     next();
 };
+app.use('/api', apiKeyMiddleware);
 
 /** ==== { ROUTES } ==== **/
 app.get('/', (req, res) => {
