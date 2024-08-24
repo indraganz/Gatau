@@ -19,6 +19,7 @@ const GDriveDl = require('./plugins/Drive-Downloader.js')
 const twitterdl = require('./plugins/Twitter-Downloader.js')
 const { remini } = require('./plugins/remini.js')
 const Nekopoi = require('./plugins/nekopoi.js')
+const { tebakHewan } = require('./plugins/tebakhewan'); 
 const { runtime } = require('./plugins/runtime'); 
 const { igstalk } = require('./plugins/igstalk');
 const { happymod } = require('./plugins/happymod');
@@ -159,6 +160,15 @@ app.post('/api/addUsage', async (req, res) => {
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
+});
+
+app.get('/api/tebakhewan', async (req, res) => {
+    try {
+        const result = await tebakHewan();
+        res.json({ success: true, result });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 });
 
 app.post('/api/runtime', async (req, res) => {
