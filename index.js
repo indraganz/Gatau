@@ -176,26 +176,6 @@ app.post('/api/runtime', async (req, res) => {
     }
 });
 
-app.get('/api/lyrics', async (req, res) => {
-    const query = req.query.query;
-    if (!query) {
-        return res.status(400).json({ error: 'Query parameter "query" is required' });
-    }
-
-    try {
-        const data = await fetchLyrics(query);
-        res.status(200).json({
-            status: 200,
-            creator: global.creator,
-            result: {
-                data: data.results
-            }
-        });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
 app.get('/api/ipinfo', async (req, res) => {
     const ip = req.query.ip;
 
