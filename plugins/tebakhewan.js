@@ -19,7 +19,8 @@ const tebakHewan = async () => {
             const alt = path.basename(src, path.extname(src)).replace(/-/g, ' ');
             const capitalizedAlt = alt.charAt(0).toUpperCase() + alt.slice(1);
             return {
-                title: capitalizedAlt,
+                creator: global.creator,
+                jawaban: capitalizedAlt,
                 url: src
             };
         }).get();
