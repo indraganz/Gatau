@@ -13,7 +13,6 @@ const tebakGambar = async () => {
             const src = $(element).attr('src');
             const alt = $(element).attr('alt');
             return {
-                creator: global.creator,
                 jawaban: alt,
                 url: src
             };
