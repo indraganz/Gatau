@@ -21,7 +21,6 @@ const { remini } = require('./plugins/remini.js')
 const Nekopoi = require('./plugins/nekopoi.js')
 const { runtime } = require('./plugins/runtime'); 
 const { igstalk } = require('./plugins/igstalk');
-const { fetchLyrics } = require('./plugins/lyrics');
 const { happymod } = require('./plugins/happymod');
 const { downloadFromYouTube } = require('./plugins/youtube');
 const { getIpInfo } = require('./plugins/ipinfo');
@@ -173,26 +172,6 @@ app.post('/api/runtime', async (req, res) => {
         res.status(500).json({
             error: error.message
         });
-    }
-});
-
-app.get('/api/lyrics', async (req, res) => {
-    const query = req.query.query;
-    if (!query) {
-        return res.status(400).json({ error: 'Query parameter "query" is required' });
-    }
-
-    try {
-        const data = await fetchLyrics(query);
-        res.status(200).json({
-            status: 200,
-            creator: global.creator,
-            result: {
-                data: data.results
-            }
-        });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
     }
 });
 
