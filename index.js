@@ -20,7 +20,6 @@ const twitterdl = require('./plugins/Twitter-Downloader.js')
 const { remini } = require('./plugins/remini.js')
 const Nekopoi = require('./plugins/nekopoi.js')
 const { tebakHewan } = require('./plugins/tebakhewan'); 
-const { tebakGambar } = require('./plugins/tebakgambar'); 
 const { runtime } = require('./plugins/runtime'); 
 const { igstalk } = require('./plugins/igstalk');
 const { happymod } = require('./plugins/happymod');
@@ -161,21 +160,6 @@ app.post('/api/addUsage', async (req, res) => {
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
-});
-
-app.get('/api/tebakgambar', async (req, res) => {
-    try {
-        const data = await tebakGambar();
-        res.status(200).json({
-            status: 200,
-            creator: global.creator,
-            result: {
-                data
-            }
-        });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
 });
 
 app.post('/api/runtime', async (req, res) => {
