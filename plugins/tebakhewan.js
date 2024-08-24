@@ -19,20 +19,19 @@ const tebakHewan = async () => {
             const alt = path.basename(src, path.extname(src)).replace(/-/g, ' ');
             const capitalizedAlt = alt.charAt(0).toUpperCase() + alt.slice(1);
             return {
-                creator: global.creator,
                 jawaban: capitalizedAlt,
                 url: src
             };
         }).get();
 
-        // Randomly select one animal
         const randomAnimal = animals[Math.floor(Math.random() * animals.length)];
-
-        return randomAnimal;
+        return {
+            creator: global.creator,
+            ...randomAnimal
+        };
     } catch (error) {
         throw new Error(`Failed to fetch data: ${error.message}`);
     }
 };
-
 
 module.exports = { tebakHewan };
