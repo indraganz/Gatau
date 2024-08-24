@@ -20,6 +20,7 @@ const twitterdl = require('./plugins/Twitter-Downloader.js')
 const { remini } = require('./plugins/remini.js')
 const Nekopoi = require('./plugins/nekopoi.js')
 const { tebakHewan } = require('./plugins/tebakhewan'); 
+const { tebakGambar } = require('./plugins/tebakgambar'); 
 const { runtime } = require('./plugins/runtime'); 
 const { igstalk } = require('./plugins/igstalk');
 const { happymod } = require('./plugins/happymod');
@@ -162,10 +163,16 @@ app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
 
-app.get('/api/tebakhewan', async (req, res) => {
+app.get('/api/tebakgambar', async (req, res) => {
     try {
-        const result = await tebakHewan();
-        res.json({ success: true, result });
+        const data = await tebakGambar();
+        res.status(200).json({
+            status: 200,
+            creator: global.creator,
+            result: {
+                data
+            }
+        });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -182,6 +189,21 @@ app.post('/api/runtime', async (req, res) => {
         res.status(500).json({
             error: error.message
         });
+    }
+});
+
+app.get('/api/tebakhewan', async (req, res) => {
+    try {
+        const data = await tebakHewan();
+        res.status(200).json({
+            status: 200,
+            creator: global.creator,
+            result: {
+                data
+            }
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
 });
 
