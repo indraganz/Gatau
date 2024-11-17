@@ -536,7 +536,7 @@ exports.askImage = async (inputTextt, inputImage) => {
         ]
     }
 ]
-	}!
+	};
 	const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${googlekey}`, {
 		method: 'POST',
 		headers: {
