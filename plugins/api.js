@@ -516,26 +516,27 @@ exports.askImage = async (inputTextt, inputImage) => {
 	const bup = await Resize(bufer)
 	const requestBody = {
 		"contents": [
-
-			{
-				"parts": [
-
-					{
-						"text": inputTextt
-					},
-
-					{
-						"inline_data": {
-							"mime_type": "image/jpeg",
-							"data": bup.toString('base64')
-						}
-					}
-
-				]
-			}
-
-		]
-	};
+    {
+        "parts": [
+            {
+                "text": inputTextt
+            },
+            {
+                "inline_data": [
+                    {
+                        "mime_type": "image/jpeg",  // Format JPEG
+                        "data": bup.toString('base64')  // Data gambar JPEG dalam base64
+                    },
+                    {
+                        "mime_type": "image/webp",  // Format WebP
+                        "data": bupWebP.toString('base64')  // Data gambar WebP dalam base64
+                    }
+                ]
+            }
+        ]
+    }
+]
+	}!
 	const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${googlekey}`, {
 		method: 'POST',
 		headers: {
