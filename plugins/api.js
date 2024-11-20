@@ -529,7 +529,7 @@ exports.askImage = async (inputTextt, inputImage) => {
                     },
                     {
                         "mime_type": "image/webp",  // Format WebP
-                        "data": bupWebP.toString('base64')  // Data gambar WebP dalam base64
+                        "data": bupW.toString('base64')  // Data gambar WebP dalam base64
                     }
                 ]
             }
