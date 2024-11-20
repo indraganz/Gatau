@@ -526,10 +526,6 @@ exports.askImage = async (inputTextt, inputImage) => {
                     {
                         "mime_type": "image/jpeg",  // Format JPEG
                         "data": bup.toString('base64')  // Data gambar JPEG dalam base64
-                    },
-                    {
-                        "mime_type": "image/webp",  // Format WebP
-                        "data": bup.toString('base64')  // Data gambar WebP dalam base64
                     }
                 ]
             }
